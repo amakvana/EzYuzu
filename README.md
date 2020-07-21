@@ -1,5 +1,7 @@
 # EzYuzu
-A Portable Yuzu Updater for Standalone versions of Yuzu. Perfect for those who run Yuzu through frontends such as Launchbox, Steam, EmulationStation and Hyperspin.   
+A Portable Yuzu Updater for Standalone versions of Yuzu. 
+
+Perfect for those who run Yuzu through frontends such as Launchbox, Steam, EmulationStation and Hyperspin.   
 
 ## Overview
 ![EzYuzu](images/ezyuzu.png)
