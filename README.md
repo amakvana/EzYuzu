@@ -43,3 +43,4 @@ SHA512 | dee247036fd5f45ac3e377ceefd0225f4c81d5934d6e31b149f0cf2bc0ca613d96ca7e7
 ## Acknowledgements
 Thanks:
 * [Stellar](https://github.com/StellarUpdater/Stellar) - Inspiration
+* [Agus Raharjo](https://www.iconfinder.com/agusraharj) - Icons
