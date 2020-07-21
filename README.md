@@ -20,7 +20,7 @@ Portable Yuzu Updater
 * Temp files are stored within TempUpdate and are deleted upon completion.
 
 ## Downloads
-"insert url to latest release"
+https://github.com/amakvana/EzYuzu/releases/latest
 
 Requires the latest [Microsoft .NET Framework](https://go.microsoft.com/fwlink/?linkid=2088631)
 
