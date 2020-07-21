@@ -36,6 +36,6 @@ To install Yuzu Portable for the first time:
 
 ## Yuzu Update
 1. Select your Yuzu root folder
-2. Select `Yuzu` or `Upgrade` from the `Download Optioons` menu
+2. Select `Yuzu` or `Upgrade` from the `Download Options` menu
 3. Click the `Check` button to get update status (optional)
 4. Click `Update/Upgrade`
