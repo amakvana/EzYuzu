@@ -1,4 +1,5 @@
 # EzYuzu
+Portable Yuzu Updater
 
 ## Overview
 ![EzYuzu](images/ezyuzu.png)
