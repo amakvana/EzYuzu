@@ -13,7 +13,7 @@ Perfect for those who run Yuzu through frontends (but not limited to) such as La
 
 ### Usage 
 1. Browse and locate your Yuzu root folder
-2. Select a Download Option from the dropdown menu
+2. Select a `Download Option` from the dropdown menu
 3. Click on ```Install/Update/Upgrade``` 
 
 * Downloads the latest copy of yuzu-mainline & extracts it into your Yuzu root folder.
