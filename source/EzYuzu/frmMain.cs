@@ -20,7 +20,7 @@ namespace EzYuzu
 
             // set defaults 
             lblProgress.Text = "";
-            cboOptions.SelectedIndex = 3;   // option: yuzu 
+            cboOptions.SelectedIndex = 0;   // option: dependencies
             txtYuzuLocation.Cursor = Cursors.Arrow;
             toolTip1.SetToolTip(lblYuzuLocation, "Click and Select your Yuzu Root directory");
             toolTip1.SetToolTip(txtYuzuLocation, "Click and Select your Yuzu Root directory");
@@ -74,10 +74,12 @@ namespace EzYuzu
         
         private void CboOptions_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             // default button properties
             btnProcess.Enabled = true;
             btnProcess.Text = "Update";
 
+            string message;
             // update button text depending on certain selected option 
             switch (cboOptions.SelectedIndex)
             {
@@ -89,10 +91,18 @@ namespace EzYuzu
                     }
                     break;
                 case 1:     // new install
+                    message = string.Format("This will install a fresh copy of Yuzu and its Dependencies{0}{0}It will overwrite any existing files and reset configs in the Yuzu root folder selected{0}{0}Do not use this to Upgrade Yuzu", Environment.NewLine);
+                    MessageBox.Show(message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     btnProcess.Text = "Install";
                     break;
                 case 2:     // upgrade
+                    message = string.Format("This will install the latest copy of Yuzu and its Dependencies{0}{0}This will not modify any existing configurations", Environment.NewLine);
+                    MessageBox.Show(message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     btnProcess.Text = "Upgrade";
+                    break;
+                case 3:     // yuzu
+                    message = string.Format("This will only update Yuzu (FASTEST){0}{0}This will not modify any existing configurations", Environment.NewLine);
+                    MessageBox.Show(message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
             }
         }
@@ -223,8 +233,6 @@ namespace EzYuzu
                     pbarProgress.Value = 0;
                 };
                 wc.DownloadProgressChanged += Wc_DownloadProgressChanged;
-                //wc.DownloadFileAsync(new Uri("https://aka.ms/vs/16/release/vc_redist.x64.exe"), tempDir + "\\vc_redist.x64.exe");
-
                 lblProgress.Text = "Downloading Visual C++ 2019 ...";
                 lblProgress.Refresh();
                 await wc.DownloadFileTaskAsync(new Uri("https://aka.ms/vs/16/release/vc_redist.x64.exe"), tempDir + "\\vc_redist.x64.exe");
@@ -321,7 +329,6 @@ namespace EzYuzu
 
                 lblProgress.Text = "Downloading Yuzu ...";
                 lblProgress.Refresh();
-                //wc.DownloadFileAsync(new Uri(latestYuzu), tempDir + "\\yuzu.zip");
                 await wc.DownloadFileTaskAsync(new Uri(latestYuzu), tempDir + "\\yuzu.zip");
             }
         }
