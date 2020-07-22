@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Management;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -91,7 +92,7 @@ namespace EzYuzu
                     }
                     break;
                 case 1:     // new install
-                    message = string.Format("This will install a fresh copy of Yuzu and its Dependencies{0}{0}It will overwrite any existing files and reset configs in the Yuzu root folder selected{0}{0}Do not use this to Upgrade Yuzu", Environment.NewLine);
+                    message = string.Format("This will install a fresh copy of Yuzu and its Dependencies{0}{0}It will overwrite any existing files, reset configs and set optimised GPU defaults in the Yuzu root folder selected{0}{0}Do not use this to Upgrade Yuzu", Environment.NewLine);
                     MessageBox.Show(message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     btnProcess.Text = "Install";
                     break;
@@ -210,8 +211,7 @@ namespace EzYuzu
                 wc.DownloadFileCompleted += (s, e) =>
                 {
                     // install 
-                    lblProgress.Text = "Installing Visual C++ 2019 ...";
-                    lblProgress.Refresh();
+                    SetProgressLabelStatus("Installing Visual C++ 2019 ...");
                     using (Process p = new Process())
                     {
                         p.StartInfo.FileName = tempDir + "\\vc_redist.x64.exe";
@@ -227,14 +227,12 @@ namespace EzYuzu
                         Directory.Delete(tempDir, true);
                     }
                     catch { }
-                    lblProgress.Text = "Installed!";
-                    lblProgress.Refresh();
+                    SetProgressLabelStatus("Installed!");
                     btnProcess.Enabled = true;
                     pbarProgress.Value = 0;
                 };
                 wc.DownloadProgressChanged += Wc_DownloadProgressChanged;
-                lblProgress.Text = "Downloading Visual C++ 2019 ...";
-                lblProgress.Refresh();
+                SetProgressLabelStatus("Downloading Visual C++ 2019 ...");
                 await wc.DownloadFileTaskAsync(new Uri("https://aka.ms/vs/16/release/vc_redist.x64.exe"), tempDir + "\\vc_redist.x64.exe");
             }
         }
@@ -256,16 +254,21 @@ namespace EzYuzu
             }
 
             // download vc++, yuzu and setup User folder 
-            ProcessUpgrade(yuzuLocation);
             Directory.CreateDirectory(yuzuLocation + "\\User");
             Directory.CreateDirectory(yuzuLocation + "\\User\\keys");
+            Directory.CreateDirectory(yuzuLocation + "\\User\\config");
+            ProcessUpgrade(yuzuLocation, true);
         }
 
-        private async void ProcessUpgrade(string yuzuLocation)
+        private async void ProcessUpgrade(string yuzuLocation, bool newInstall = false)
         {
             // Update dependencies and Yuzu but DO NOT touch configs
             await Task.WhenAll(ProcessDependencies(yuzuLocation));
             await Task.WhenAll(ProcessYuzu(yuzuLocation));
+            if (newInstall)
+            {
+                await Task.WhenAll(GetGPUConfig(yuzuLocation));
+            }
         }
 
         /// <summary>
@@ -305,8 +308,7 @@ namespace EzYuzu
                 wc.DownloadFileCompleted += (s, e) =>
                 {
                     // unpack 
-                    lblProgress.Text = "Unpacking Yuzu ...";
-                    lblProgress.Refresh();
+                    SetProgressLabelStatus("Unpacking Yuzu ...");
                     ZipFile.ExtractToDirectory(tempDir + "\\yuzu.zip", yuzuLocation);
 
                     // update version number 
@@ -320,15 +322,12 @@ namespace EzYuzu
                     Directory.Delete(yuzuLocation + "\\yuzu-windows-msvc", true);
                     Directory.Delete(tempDir, true);
                     Directory.EnumerateFiles(yuzuLocation, "*.xz").ToList().ForEach(item => File.Delete(item));
-                    lblProgress.Text = "Done!";
-                    lblProgress.Refresh();
+                    SetProgressLabelStatus("Done!");
                     btnProcess.Enabled = true;
                     pbarProgress.Value = 0;
                 };
                 wc.DownloadProgressChanged += Wc_DownloadProgressChanged;
-
-                lblProgress.Text = "Downloading Yuzu ...";
-                lblProgress.Refresh();
+                SetProgressLabelStatus("Downloading Yuzu ...");
                 await wc.DownloadFileTaskAsync(new Uri(latestYuzu), tempDir + "\\yuzu.zip");
             }
         }
@@ -346,6 +345,47 @@ namespace EzYuzu
         {
             RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\DevDiv\VC\Servicing\14.0\RuntimeMinimum", false);
             return (key != null) ? key.GetValue("Version").ToString().StartsWith("14") : false;
+        }
+
+        private async Task GetGPUConfig(string yuzuLocation)
+        {
+            btnProcess.Enabled = false;
+            // detect current GPU
+            bool useOpenGL = false;
+            using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController"))
+            {
+                foreach (ManagementObject obj in searcher.Get())
+                {
+                    if (obj["Name"].ToString().ToLower().Contains("nvidia"))
+                    {
+                        useOpenGL = true;
+                    }
+                }
+            }
+
+            // fetch optimised config based on installed GPU
+            using (var wc = new WebClient())
+            {
+                // download it 
+                wc.DownloadFileCompleted += (s, e) =>
+                {
+                    SetProgressLabelStatus("Done!");
+                    btnProcess.Enabled = true;
+                    pbarProgress.Value = 0;
+                };
+                wc.DownloadProgressChanged += Wc_DownloadProgressChanged;
+
+                string gpuConfigUrl = "https://github.com/amakvana/EzYuzu/raw/master/configs/";
+                gpuConfigUrl += (useOpenGL) ? "opengl.ini" : "vulkan.ini";
+                SetProgressLabelStatus("Downloading Optimised GPU Config ...");
+                await wc.DownloadFileTaskAsync(new Uri(gpuConfigUrl), yuzuLocation + "\\User\\config\\qt-config.ini");
+            }
+        }
+
+        private void SetProgressLabelStatus(string status)
+        {
+            lblProgress.Text = status;
+            lblProgress.Refresh();
         }
     }
 }
