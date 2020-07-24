@@ -43,5 +43,6 @@ SHA512 | 9b16503ce44bd05c0a8c411eb349b8a0d16bd8b7dbaff082912497e4e7ffe169dff24a1
 
 ## Acknowledgements
 Thanks:
+* [Yuzu Team](https://yuzu-emu.org/) - Nintendo Switch Emulator Developers 
 * [Stellar](https://github.com/StellarUpdater/Stellar) - Inspiration
 * [Agus Raharjo](https://www.iconfinder.com/agusraharj) - Icons
