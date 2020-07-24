@@ -23,7 +23,7 @@
 Option | Description
 --- | ---
 `Dependencies` | (Re)Installs Redistributables. Helpful if Yuzu won't start after update.
-`New Install` | Installs Yuzu & Redistributables. Resets configs & sets optimised GPU defaults found in [configs](https://github.com/amakvana/EzYuzu/tree/master/configs).
+`New Install` | Installs Yuzu & Redistributables. Resets configs & sets [optimised GPU defaults](https://github.com/amakvana/EzYuzu/tree/master/configs).
 `Upgrade` | Upgrades Yuzu to the latest version, including Redistributables but excluding configs.
 `Yuzu` | Updates Yuzu to the latest version, excluding Redistributables and configs.
 
