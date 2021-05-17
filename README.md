@@ -1,3 +1,7 @@
+![GitHub repo size](https://img.shields.io/github/repo-size/amakvana/EzYuzu)
+![GitHub all releases](https://img.shields.io/github/downloads/amakvana/EzYuzu/total)
+![GitHub](https://img.shields.io/github/license/amakvana/EzYuzu)
+
 # EzYuzu
 A Portable Yuzu Updater for Standalone versions of Yuzu. 
 
