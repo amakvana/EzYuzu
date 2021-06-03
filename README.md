@@ -22,7 +22,7 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
 
 * Downloads the latest copy of yuzu-mainline & extracts it into your Yuzu root folder.
 * `Check` button to check if your standalone copy of Yuzu is up-to-date.
-* It shouldn't overwrite configs unless New Install is selected. However, backup beforehand. 
+* It shouldn't overwrite configs unless `New Install` is selected. However, backup beforehand. 
 * Temp files are stored within TempUpdate and are deleted upon completion.
 * [GUIDE](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md) for detailed instructions
 
