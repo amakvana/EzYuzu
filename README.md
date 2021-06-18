@@ -36,15 +36,6 @@ EzYuzu is 100% portable - it can be run from any location.
 
 EzYuzu requires Administrator privileges to ensure Dependencies can be installed.
 
-## Hashes 
-Hashes of latest EzYuzu.exe below: 
-Hash | Value
---- | ---
-MD5 | 8c87e3f5af6ebc3b7b525585c58a3fa7
-SHA1 | 7a2d01e91e7c4fc5fa3470a6630fa52cc3e21dd4
-SHA256 | 326529099c5f07fb1237f1c4840abd082d1973a55b80ebfd39caf0ad2422b4cf
-SHA512 | 9b16503ce44bd05c0a8c411eb349b8a0d16bd8b7dbaff082912497e4e7ffe169dff24a1f7efc33ebb2f6c8855c39d565029c6b2e81c7d53d8315ef7c7699603a
-
 ## Acknowledgements
 Thanks:
 * [Yuzu Team](https://yuzu-emu.org/) - Nintendo Switch Emulator Developers 
