@@ -33,6 +33,8 @@ https://github.com/amakvana/EzYuzu/releases/latest
 Requires the latest [Microsoft .NET Framework](https://go.microsoft.com/fwlink/?linkid=2088631)
 
 ## Installation
+Extract the entire contents of the EzYuzu.zip file into a folder and run EzYuzu.exe 
+
 EzYuzu is 100% portable - it can be run from any location.
 
 EzYuzu requires Administrator privileges to ensure Dependencies can be installed.
