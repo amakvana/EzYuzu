@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,6 +19,17 @@ namespace EzYuzu
         public frmMain()
         {
             InitializeComponent();
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            // check if software is latest version 
+            if (!AppUpdater.IsLatestVersion())
+            {
+                MessageBox.Show("New version of EzYuzu available, please download from https://github.com/amakvana/EzYuzu", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Process.Start("https://github.com/amakvana/EzYuzu");
+                Application.Exit();
+            }
 
             // set defaults 
             lblProgress.Text = "";
@@ -29,6 +41,22 @@ namespace EzYuzu
             toolTip1.SetToolTip(pbarProgress, "Progress completed of current action");
             toolTip1.SetToolTip(cboOptions, "Select Download option - view README.txt for details");
             toolTip1.SetToolTip(btnCheck, "Check if Yuzu update is available");
+            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.YuzuLocation))
+            {
+                txtYuzuLocation.Text = Properties.Settings.Default.YuzuLocation;
+                
+                // check if TempUpdate folder exists, if so delete it
+                if (Directory.Exists(@$"{txtYuzuLocation.Text}\TempUpdate"))
+                {
+                    Directory.Delete(@$"{txtYuzuLocation.Text}\TempUpdate", true);
+                }
+            }
+        }
+
+        private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.YuzuLocation = txtYuzuLocation.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void YuzuWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -63,19 +91,20 @@ namespace EzYuzu
 
         private void BtnBrowse_Click(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            using (var fbd = new VistaFolderBrowserDialog())
             {
-                fbd.Description = "Browse to Yuzu root folder";
+                fbd.ShowNewFolderButton = true;
+                fbd.UseDescriptionForTitle = true;
+                fbd.Description = "Browse to Yuzu Root folder";
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    txtYuzuLocation.Text = fbd.SelectedPath;
+                    txtYuzuLocation.Text = fbd.SelectedPath.Trim();
                 }
             }
         }
         
         private void CboOptions_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             // default button properties
             btnProcess.Enabled = true;
             btnProcess.Text = "Update";
@@ -110,11 +139,11 @@ namespace EzYuzu
 
         private void BtnCheck_Click(object sender, EventArgs e)
         {
+            ToggleControls(false);
+
             // read in current version 
             // get latest version 
             // compare 
-
-            btnCheck.Enabled = false;
             if (!string.IsNullOrWhiteSpace(txtYuzuLocation.Text))
             {
                 string yuzuLocation = txtYuzuLocation.Text;
@@ -163,7 +192,14 @@ namespace EzYuzu
             {
                 MessageBox.Show("Please select your Yuzu root folder", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            btnCheck.Enabled = true;
+
+            // enable relevant buttons 
+            ToggleControls(true);
+            if (cboOptions.SelectedIndex == 0 && DependenciesInstalled())
+            {
+                btnProcess.Enabled = false;
+                btnProcess.Text = "Installed";
+            }
         }
 
         private void BtnProcess_Click(object sender, EventArgs e)
@@ -197,7 +233,8 @@ namespace EzYuzu
 
         private async Task ProcessDependencies(string yuzuLocation)
         {
-            btnProcess.Enabled = false;
+            ToggleControls(false);
+
             // create temp directory for downloads 
             string tempDir = yuzuLocation + "\\TempUpdate";
             if (!Directory.Exists(tempDir))
@@ -212,10 +249,10 @@ namespace EzYuzu
                 {
                     // install 
                     SetProgressLabelStatus("Installing Visual C++ 2019 ...");
-                    using (Process p = new Process())
+                    using (var p = new Process())
                     {
                         p.StartInfo.FileName = tempDir + "\\vc_redist.x64.exe";
-                        p.StartInfo.Arguments = "/install /quiet";
+                        p.StartInfo.Arguments = "/install /quiet /norestart";
                         p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                         p.Start();
                         p.WaitForExit();
@@ -228,7 +265,7 @@ namespace EzYuzu
                     }
                     catch { }
                     SetProgressLabelStatus("Installed!");
-                    btnProcess.Enabled = true;
+                    ToggleControls(true);
                     pbarProgress.Value = 0;
                 };
                 wc.DownloadProgressChanged += Wc_DownloadProgressChanged;
@@ -277,7 +314,8 @@ namespace EzYuzu
         /// <param name="yuzuLocation">Path to store Yuzu</param>
         private async Task ProcessYuzu(string yuzuLocation)
         {
-            btnProcess.Enabled = false;
+            ToggleControls(false);
+
             // create temp directory for downloads 
             string tempDir = yuzuLocation + "\\TempUpdate";
             if (!Directory.Exists(tempDir))
@@ -323,7 +361,7 @@ namespace EzYuzu
                     Directory.Delete(tempDir, true);
                     Directory.EnumerateFiles(yuzuLocation, "*.xz").ToList().ForEach(item => File.Delete(item));
                     SetProgressLabelStatus("Done!");
-                    btnProcess.Enabled = true;
+                    ToggleControls(true);
                     pbarProgress.Value = 0;
                 };
                 wc.DownloadProgressChanged += Wc_DownloadProgressChanged;
@@ -344,12 +382,13 @@ namespace EzYuzu
         private bool DependenciesInstalled()
         {
             RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\DevDiv\VC\Servicing\14.0\RuntimeMinimum", false);
-            return (key != null) ? key.GetValue("Version").ToString().StartsWith("14") : false;
+            return (key != null) && key.GetValue("Version").ToString().StartsWith("14");
         }
 
         private async Task GetGPUConfig(string yuzuLocation)
         {
-            btnProcess.Enabled = false;
+            ToggleControls(false);
+
             // detect current GPU
             bool useOpenGL = false;
             using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController"))
@@ -370,7 +409,7 @@ namespace EzYuzu
                 wc.DownloadFileCompleted += (s, e) =>
                 {
                     SetProgressLabelStatus("Done!");
-                    btnProcess.Enabled = true;
+                    ToggleControls(true);
                     pbarProgress.Value = 0;
                 };
                 wc.DownloadProgressChanged += Wc_DownloadProgressChanged;
@@ -386,6 +425,15 @@ namespace EzYuzu
         {
             lblProgress.Text = status;
             lblProgress.Refresh();
+        }
+
+        private void ToggleControls(bool value)
+        {
+            txtYuzuLocation.Enabled = value;
+            cboOptions.Enabled = value;
+            btnCheck.Enabled = value;
+            btnProcess.Enabled = value;
+            btnBrowse.Enabled = value;
         }
     }
 }
