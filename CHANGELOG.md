@@ -4,10 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [1.2.0.0] - 2021-08-20
 ### Added
-- Added version detection
+- EzYuzu version detection
 - EzYuzu now remembers previously selected Yuzu Folder Location when launched 
 ### Changed
-- Folder Browse dialog 
+- Folder Browse dialog - modern UI implemented
 ### Fixed
 - Visual C++ Redistributable installer no longer forces reboot
 - Improved cleanup process
