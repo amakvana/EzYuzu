@@ -1,6 +1,7 @@
 ![GitHub Release](https://img.shields.io/github/v/release/amakvana/EzYuzu?style=for-the-badge&logo=appveyor)
 ![GitHub license](https://img.shields.io/github/license/amakvana/EzYuzu?style=for-the-badge&logo=appveyor)
 ![GitHub repo size](https://img.shields.io/github/repo-size/amakvana/EzYuzu?style=for-the-badge&logo=appveyor)
+![GitHub all releases](https://img.shields.io/github/downloads/amakvana/EzYuzu/total?style=for-the-badge&logo=appveyor)
 
 # EzYuzu
 A Portable Yuzu Updater for Standalone versions of Yuzu. 
