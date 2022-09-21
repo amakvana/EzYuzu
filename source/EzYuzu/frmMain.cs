@@ -327,9 +327,17 @@ namespace EzYuzu
             using (var wc = new WebClient())
             {
                 // fetch latest Yuzu release 
-                string latestYuzu = "https://github.com";
-                string repo = "https://github.com/yuzu-emu/yuzu-mainline/releases/latest";
+                string repo = GetRedirectedUrl("https://github.com/yuzu-emu/yuzu-mainline/releases/latest");
+
+                // 21/09/22 - github now uses expanded_assets in the url to show the assets. 
+                // we grab the redirected url from /latest/
+                // parse the last / as it contains the version url then prepend the word "expanded_assets" to it 
+                // join back onto "https://github.com/yuzu-emu/yuzu-mainline/releases"
+                repo = $@"https://github.com/yuzu-emu/yuzu-mainline/releases/expanded_assets/{repo.Split('/').Last().Trim()}";
+
+                // get html from new url structure
                 string repoHtml = wc.DownloadString(repo);
+                string latestYuzu = "https://github.com";
                 string version = "";
                 Regex r = new Regex(@"(?:\/yuzu-emu\/yuzu-mainline\/releases\/download\/[^""]+)");
                 foreach (Match m in r.Matches(repoHtml))
@@ -368,6 +376,28 @@ namespace EzYuzu
                 SetProgressLabelStatus("Downloading Yuzu ...");
                 await wc.DownloadFileTaskAsync(new Uri(latestYuzu), tempDir + "\\yuzu.zip");
             }
+        }
+
+        // https://stackoverflow.com/a/24445779
+        private string GetRedirectedUrl(string url)
+        {
+            string uriString = "";
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.AllowAutoRedirect = false;  // IMPORTANT
+            request.Timeout = 10000;           // timeout 10s
+            request.Method = "HEAD";
+            // Get the response ...
+            using (var response = (HttpWebResponse)request.GetResponse())
+            {
+                // Now look to see if it's a redirect
+                if ((int)response.StatusCode >= 300 && (int)response.StatusCode <= 399)
+                {
+                    uriString = response.Headers["Location"];
+                    //Console.WriteLine("Redirect to " + uriString ?? "NULL");
+                    response.Close(); // don't forget to close it - or bad things happen
+                }
+            }
+            return uriString;
         }
 
         private void Wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
