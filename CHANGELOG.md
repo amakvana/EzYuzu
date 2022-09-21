@@ -45,6 +45,8 @@ All notable changes to this project will be documented in this file.
 
 - UI grammar and punctuation
 
+<br>
+
 ## [1.0.0.0] - 2020-07-21
 
 ### Added
