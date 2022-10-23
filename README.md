@@ -16,7 +16,7 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
   * [Usage](#usage)
 * [Download](#downloads)
 * [Installation](#installation)
-* [Guide](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md)
+* [User Guide](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md)
 * [Acknowledgements](#acknowledgements) 
 
 ## Overview
