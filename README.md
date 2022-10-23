@@ -8,8 +8,18 @@ A Portable Yuzu Updater for Standalone versions of Yuzu.
 
 Perfect for those who run Yuzu off an External HDD or through (but not limited to) frontends  such as LaunchBox, Steam, EmulationStation and HyperSpin.   
 
-## Overview
 ![EzYuzu](images/ezyuzu.png)
+
+## Table of Contents 
+* [Overview](#overview) 
+  * [Methodology](#methodology)
+  * [Usage](#usage)
+* [Download](#downloads)
+* [Installation](#installation)
+* [Guide](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md)
+* [Acknowledgements](#acknowledgements) 
+
+## Overview
 
 ### Methodology 
 * Reads https://github.com/yuzu-emu/yuzu-mainline/releases/latest
