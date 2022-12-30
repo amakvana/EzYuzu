@@ -4,53 +4,66 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/amakvana/EzYuzu/total?style=for-the-badge&logo=appveyor)
 
 # EzYuzu
-A Portable Yuzu Updater for Standalone versions of Yuzu. 
 
-Perfect for those who run Yuzu off an External HDD or through (but not limited to) frontends  such as LaunchBox, Steam, EmulationStation and HyperSpin.   
+A Portable Yuzu Updater for Standalone versions of Yuzu.
 
-![EzYuzu](images/ezyuzu.png)
+Perfect for those who run Yuzu off an External HDD or through (but not limited to) frontends such as LaunchBox, Steam, EmulationStation and HyperSpin.
 
-## Table of Contents 
-* [Overview](#overview) 
-  * [Methodology](#methodology)
-  * [Usage](#usage)
-* [Download](#downloads)
-* [Installation](#installation)
-* [User Guide](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md)
-* [Acknowledgements](#acknowledgements) 
+![EzYuzu v1.4.0.0](images/ezyuzu_1400.png)
+
+## Table of Contents
+
+- [Overview](#overview)
+  - [Methodology](#methodology)
+  - [Usage](#usage)
+- [Download](#downloads)
+- [Installation](#installation)
+- [User Guide](#user-guide)
+- [Acknowledgements](#acknowledgements)
 
 ## Overview
 
-### Methodology 
-* Reads https://github.com/yuzu-emu/yuzu-mainline/releases/latest
-* Fetches the latest .zip URL
-* Downloads & extracts it into your Yuzu root folder
+### Methodology
 
-### Usage 
-1. Browse and locate your Yuzu root folder
-2. Select a `Download Option` from the dropdown menu
-3. Click on ```Install/Update/Upgrade``` 
+- Reads https://github.com/yuzu-emu/yuzu-mainline/releases/latest
+- Fetches the latest .zip URL
+- Downloads & extracts it into your Yuzu Root Folder
 
-* Downloads the latest copy of yuzu-mainline & extracts it into your Yuzu root folder.
-* `Check` button to check if your standalone copy of Yuzu is up-to-date.
-* It shouldn't overwrite configs unless `New Install` is selected. However, backup beforehand. 
-* Temp files are stored within TempUpdate and are deleted upon completion.
-* [GUIDE](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md) for detailed instructions
+### Usage
+
+1. Browse and locate the your Yuzu Root Folder, this is the folder containing `yuzu.exe`
+2. EzYuzu will automatically detect the version of yuzu.exe
+3. Click on `New Install` or `Update Yuzu`
+
+- Downloads the latest copy of yuzu-mainline & extracts it into your Yuzu Root Folder.
+- Automatically checks if your standalone copy of Yuzu is up-to-date.
+- `Dependencies` can be included within `Update Yuzu` by checking the option within `Options` > `General` > `Update Yuzu` > `Reinstall Visual C++`
+- It shouldn't overwrite configs unless `New Install` is displayed. However, backup beforehand.
+- Temp files are stored within `TempUpdate` and are deleted upon completion.
+- [GUIDE](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md) for detailed instructions
 
 ## Downloads
+
 https://github.com/amakvana/EzYuzu/releases/latest
 
-Requires the latest [Microsoft .NET Framework](https://go.microsoft.com/fwlink/?linkid=2088631)
+Requires [Microsoft .NET Framework 4.8 or higher](https://go.microsoft.com/fwlink/?linkid=2088631)
 
 ## Installation
-Extract the entire contents of the EzYuzu.zip file into a folder and run EzYuzu.exe 
+
+Extract the entire contents of the EzYuzu.zip file into a folder and run EzYuzu.exe
 
 EzYuzu is 100% portable - it can be run from any location.
 
 EzYuzu requires Administrator privileges to ensure Dependencies can be installed.
 
+## User Guide
+
+The User Guide can be found [here](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md)
+
 ## Acknowledgements
+
 Thanks:
-* [Yuzu Team](https://yuzu-emu.org/) - Nintendo Switch Emulator Developers 
-* [Stellar](https://github.com/StellarUpdater/Stellar) - Inspiration
-* [Agus Raharjo](https://www.iconfinder.com/agusraharj) - Icons
+
+- [Yuzu Team](https://yuzu-emu.org/) - Nintendo Switch Emulator Developers
+- [Stellar](https://github.com/StellarUpdater/Stellar) - Inspiration
+- [Agus Raharjo](https://www.iconfinder.com/agusraharj) - Icons
