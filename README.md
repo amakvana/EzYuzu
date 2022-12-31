@@ -26,7 +26,7 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
 ### Methodology
 
 - Reads https://github.com/yuzu-emu/yuzu-mainline/releases/latest
-- Fetches the latest .zip URL
+- Fetches the latest .7z archive URL
 - Downloads & extracts it into your Yuzu Root Folder
 
 ### Usage
@@ -46,7 +46,10 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
 
 https://github.com/amakvana/EzYuzu/releases/latest
 
-Requires [Microsoft .NET Framework 4.8 or higher](https://go.microsoft.com/fwlink/?linkid=2088631)
+Requires:
+- Latest [7-Zip](https://www.7-zip.org/a/7z2201-x64.msi) installed.
+- Latest [Microsoft .NET Framework](https://go.microsoft.com/fwlink/?linkid=2088631) installed.
+- Latest [Visual C++ X64 Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe) installed.
 
 ## Installation
 
