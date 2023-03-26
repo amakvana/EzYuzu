@@ -4,6 +4,36 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.5.0.0] - 2023-03-26
+
+### Added
+
+- Added support for Early Access Builds via [pineappleEA](https://github.com/pineappleEA/pineapple-src)
+  - Mainline remains default for `New Install`, unless overridden.
+- Ability to switch Update Channels for current installations.
+  - `Options` > `General` > `Update Channel` > `Override Update Channel`
+- EzYuzu will automatically detect which Update Channel the seelcted copy of Yuzu is on.
+
+### Changed
+
+- Goodbye `RegEx`, hello `System.Text.Json`
+
+  - Completely refactored how EzYuzu pulls the latest archives down for both Update Channels - now uses api.github.com instead of downloading the entire webpage and parsing with RegEx. Increased robustness and further speed improvements.
+
+- Updated `FrmAbout` credits to point to Readme Acknowledgements
+- Updated `Ookii.Dialogs.WinForms` binaries from `1.2.0` to `4.0.0`
+- Another code refactor to handle both Update Channels. Removed redundant code
+- Improved yuzu version detection - checks current channel through `yuzu-cmd.exe`
+- Further UI tweaks to improve UX
+  - Disabling dropdowns and other controls when `btnProcess` is initiated
+
+### Fixed
+
+- Improved error handling
+- Typo's within `FrmAbout`
+
+<br>
+
 ## [1.4.0.0] - 2022-12-30
 
 ### Added

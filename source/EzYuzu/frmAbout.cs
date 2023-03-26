@@ -15,8 +15,14 @@ namespace EzYuzu
             //this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;
             //this.textBoxDescription.Text = AssemblyDescription;
-            this.textBoxDescription.Text = String.Format("EzYuzu {0}Yuzu Portable Updater (Unofficial) by amakvana {0}{0}https://github.com/amakvana/EzYuzu {0}{0}This software is licensed under GNU GLPv3 {0}Source code is available in repository above {0}{0}Credits: {0}Agus Raharjo (https://www.iconfinder.com/agusraharj), Icon {0}wyzrd (https://github.com/StellarUpdater/Stellar), Inspiration {0}{0}Disclaimer: {0}This software comes with no warranty, express or implied nor does the author makes no representation of warranties. The author claims no responsibility for damages resulting from any use or misuse of the software.", Environment.NewLine);
-
+            this.textBoxDescription.Text = String.Format("EzYuzu {0}" +
+                "Yuzu Portable Updater (Unofficial) by amakvana {0}{0}" +
+                "https://github.com/amakvana/EzYuzu {0}{0}" +
+                "This software is licensed under GNU GPL-3.0 {0}" +
+                "Source code is available in repository above {0}{0}" +
+                "Credits: https://github.com/amakvana/EzYuzu#acknowledgements {0}{0}" +
+                "Disclaimer: {0}" +
+                "This software comes with no warranty, express or implied nor does the author makes no representation of warranties. The author claims no responsibility for damages resulting from any use or misuse of the software.", Environment.NewLine);
         }
 
         #region Assembly Attribute Accessors

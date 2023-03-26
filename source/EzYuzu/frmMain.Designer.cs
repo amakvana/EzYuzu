@@ -33,10 +33,16 @@
             this.lblYuzuLocation = new System.Windows.Forms.Label();
             this.txtYuzuLocation = new System.Windows.Forms.TextBox();
             this.btnBrowse = new System.Windows.Forms.Button();
-            this.pbarProgress = new System.Windows.Forms.ProgressBar();
+            this.pbarCurrentProgress = new System.Windows.Forms.ProgressBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.generalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateYuzuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reinstallVisualCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.channelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.overrideUpdateChannelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.yuzuWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,10 +51,8 @@
             this.btnProcess = new System.Windows.Forms.Button();
             this.lblProgress = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.updateYuzuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reinstallVisualCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblUpdateChannel = new System.Windows.Forms.Label();
+            this.cboUpdateChannel = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,12 +86,12 @@
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.BtnBrowse_ClickAsync);
             // 
-            // pbarProgress
+            // pbarCurrentProgress
             // 
-            this.pbarProgress.Location = new System.Drawing.Point(12, 97);
-            this.pbarProgress.Name = "pbarProgress";
-            this.pbarProgress.Size = new System.Drawing.Size(342, 23);
-            this.pbarProgress.TabIndex = 3;
+            this.pbarCurrentProgress.Location = new System.Drawing.Point(12, 149);
+            this.pbarCurrentProgress.Name = "pbarCurrentProgress";
+            this.pbarCurrentProgress.Size = new System.Drawing.Size(342, 23);
+            this.pbarCurrentProgress.TabIndex = 3;
             // 
             // menuStrip1
             // 
@@ -115,6 +119,54 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generalToolStripMenuItem});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // generalToolStripMenuItem
+            // 
+            this.generalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.updateYuzuToolStripMenuItem,
+            this.channelToolStripMenuItem});
+            this.generalToolStripMenuItem.Name = "generalToolStripMenuItem";
+            this.generalToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.generalToolStripMenuItem.Text = "General";
+            // 
+            // updateYuzuToolStripMenuItem
+            // 
+            this.updateYuzuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reinstallVisualCToolStripMenuItem});
+            this.updateYuzuToolStripMenuItem.Name = "updateYuzuToolStripMenuItem";
+            this.updateYuzuToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.updateYuzuToolStripMenuItem.Text = "Update Yuzu";
+            // 
+            // reinstallVisualCToolStripMenuItem
+            // 
+            this.reinstallVisualCToolStripMenuItem.CheckOnClick = true;
+            this.reinstallVisualCToolStripMenuItem.Name = "reinstallVisualCToolStripMenuItem";
+            this.reinstallVisualCToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.reinstallVisualCToolStripMenuItem.Text = "Reinstall Visual C++";
+            // 
+            // channelToolStripMenuItem
+            // 
+            this.channelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.overrideUpdateChannelToolStripMenuItem});
+            this.channelToolStripMenuItem.Name = "channelToolStripMenuItem";
+            this.channelToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.channelToolStripMenuItem.Text = "Update Channel";
+            // 
+            // overrideUpdateChannelToolStripMenuItem
+            // 
+            this.overrideUpdateChannelToolStripMenuItem.CheckOnClick = true;
+            this.overrideUpdateChannelToolStripMenuItem.Name = "overrideUpdateChannelToolStripMenuItem";
+            this.overrideUpdateChannelToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.overrideUpdateChannelToolStripMenuItem.Text = "Override Update Channel";
+            this.overrideUpdateChannelToolStripMenuItem.Click += new System.EventHandler(this.OverrideUpdateChannelToolStripMenuItem_ClickAsync);
             // 
             // helpToolStripMenuItem
             // 
@@ -156,7 +208,7 @@
             // btnProcess
             // 
             this.btnProcess.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProcess.Location = new System.Drawing.Point(12, 126);
+            this.btnProcess.Location = new System.Drawing.Point(12, 178);
             this.btnProcess.Name = "btnProcess";
             this.btnProcess.Size = new System.Drawing.Size(342, 63);
             this.btnProcess.TabIndex = 7;
@@ -167,51 +219,45 @@
             // lblProgress
             // 
             this.lblProgress.AutoSize = true;
-            this.lblProgress.Location = new System.Drawing.Point(12, 81);
+            this.lblProgress.Location = new System.Drawing.Point(12, 133);
             this.lblProgress.Name = "lblProgress";
             this.lblProgress.Size = new System.Drawing.Size(35, 13);
             this.lblProgress.TabIndex = 9;
             this.lblProgress.Text = "label2";
             // 
-            // optionsToolStripMenuItem
+            // lblUpdateChannel
             // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generalToolStripMenuItem});
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.optionsToolStripMenuItem.Text = "Options";
+            this.lblUpdateChannel.AutoSize = true;
+            this.lblUpdateChannel.Location = new System.Drawing.Point(12, 81);
+            this.lblUpdateChannel.Name = "lblUpdateChannel";
+            this.lblUpdateChannel.Size = new System.Drawing.Size(87, 13);
+            this.lblUpdateChannel.TabIndex = 10;
+            this.lblUpdateChannel.Text = "Update Channel:";
             // 
-            // generalToolStripMenuItem
+            // cboUpdateChannel
             // 
-            this.generalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.updateYuzuToolStripMenuItem});
-            this.generalToolStripMenuItem.Name = "generalToolStripMenuItem";
-            this.generalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.generalToolStripMenuItem.Text = "General";
-            // 
-            // updateYuzuToolStripMenuItem
-            // 
-            this.updateYuzuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reinstallVisualCToolStripMenuItem});
-            this.updateYuzuToolStripMenuItem.Name = "updateYuzuToolStripMenuItem";
-            this.updateYuzuToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.updateYuzuToolStripMenuItem.Text = "Update Yuzu";
-            // 
-            // reinstallVisualCToolStripMenuItem
-            // 
-            this.reinstallVisualCToolStripMenuItem.CheckOnClick = true;
-            this.reinstallVisualCToolStripMenuItem.Name = "reinstallVisualCToolStripMenuItem";
-            this.reinstallVisualCToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.reinstallVisualCToolStripMenuItem.Text = "Reinstall Visual C++";
+            this.cboUpdateChannel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboUpdateChannel.Enabled = false;
+            this.cboUpdateChannel.FormattingEnabled = true;
+            this.cboUpdateChannel.Items.AddRange(new object[] {
+            "Mainline",
+            "Early Access"});
+            this.cboUpdateChannel.Location = new System.Drawing.Point(12, 97);
+            this.cboUpdateChannel.Name = "cboUpdateChannel";
+            this.cboUpdateChannel.Size = new System.Drawing.Size(342, 21);
+            this.cboUpdateChannel.TabIndex = 11;
+            this.cboUpdateChannel.SelectedIndexChanged += new System.EventHandler(this.CboUpdateChannel_SelectedIndexChanged);
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(366, 201);
+            this.ClientSize = new System.Drawing.Size(366, 253);
+            this.Controls.Add(this.cboUpdateChannel);
+            this.Controls.Add(this.lblUpdateChannel);
             this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.btnProcess);
-            this.Controls.Add(this.pbarProgress);
+            this.Controls.Add(this.pbarCurrentProgress);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.txtYuzuLocation);
             this.Controls.Add(this.lblYuzuLocation);
@@ -237,7 +283,7 @@
         private System.Windows.Forms.Label lblYuzuLocation;
         private System.Windows.Forms.TextBox txtYuzuLocation;
         private System.Windows.Forms.Button btnBrowse;
-        private System.Windows.Forms.ProgressBar pbarProgress;
+        private System.Windows.Forms.ProgressBar pbarCurrentProgress;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
@@ -253,6 +299,10 @@
         private System.Windows.Forms.ToolStripMenuItem generalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateYuzuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reinstallVisualCToolStripMenuItem;
+        private System.Windows.Forms.Label lblUpdateChannel;
+        private System.Windows.Forms.ComboBox cboUpdateChannel;
+        private System.Windows.Forms.ToolStripMenuItem channelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem overrideUpdateChannelToolStripMenuItem;
     }
 }
 

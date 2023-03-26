@@ -9,7 +9,7 @@ A Portable Yuzu Updater for Standalone versions of Yuzu.
 
 Perfect for those who run Yuzu off an External HDD or through (but not limited to) frontends such as LaunchBox, Steam, EmulationStation and HyperSpin.
 
-![EzYuzu v1.4.0.0](images/ezyuzu_1400.png)
+![EzYuzu v1.5.0.0](images/ezyuzu_1500.png)
 
 ## Table of Contents
 
@@ -33,7 +33,8 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
 
 1. Browse and locate the your Yuzu Root Folder, this is the folder containing `yuzu.exe`
 2. EzYuzu will automatically detect the version of yuzu.exe
-3. Click on `New Install` or `Update Yuzu`
+3. (Optional): Change Update Channels
+4. Click on `New Install` or `Update Yuzu`
 
 - Downloads the latest copy of yuzu-mainline & extracts it into your Yuzu Root Folder.
 - Automatically checks if your standalone copy of Yuzu is up-to-date.
@@ -47,13 +48,14 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
 https://github.com/amakvana/EzYuzu/releases/latest
 
 Requires:
+
 - Latest [7-Zip](https://www.7-zip.org/a/7z2201-x64.msi) installed.
 - Latest [Microsoft .NET Framework](https://go.microsoft.com/fwlink/?linkid=2088631) installed.
 - Latest [Visual C++ X64 Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe) installed.
 
 ## Installation
 
-Extract the entire contents of the EzYuzu.zip file into a folder and run EzYuzu.exe
+Extract the entire contentsof the `EzYuzu.zip` file, including all `.dll` files, into a folder and run `EzYuzu.exe`
 
 EzYuzu is 100% portable - it can be run from any location.
 
@@ -68,5 +70,6 @@ The User Guide can be found [here](https://github.com/amakvana/EzYuzu/blob/maste
 Thanks:
 
 - [Yuzu Team](https://yuzu-emu.org/) - Nintendo Switch Emulator Developers
+- [PineappleEA](https://github.com/pineappleEA/pineapple-src) - Early Access Builds
 - [Stellar](https://github.com/StellarUpdater/Stellar) - Inspiration
 - [Agus Raharjo](https://www.iconfinder.com/agusraharj) - Icons

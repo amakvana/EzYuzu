@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EzYuzu
 {
@@ -10,6 +11,7 @@ namespace EzYuzu
         {
             Directory
                 .EnumerateFiles(fromFolder, "*.*", SearchOption.AllDirectories)
+                .Where(file => (File.GetAttributes(file) & (FileAttributes.Hidden | FileAttributes.System)) == 0)
                 .AsParallel()
                 .ForAll(from =>
                 {
