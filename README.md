@@ -36,9 +36,10 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
 3. (Optional): Change Update Channels
 4. Click on `New Install` or `Update Yuzu`
 
-- Downloads the latest copy of yuzu-mainline & extracts it into your Yuzu Root Folder.
+- Downloads the latest copy of yuzu & extracts it into your Yuzu Root Folder.
 - Automatically checks if your standalone copy of Yuzu is up-to-date.
 - `Dependencies` can be included within `Update Yuzu` by checking the option within `Options` > `General` > `Update Yuzu` > `Reinstall Visual C++`
+- `Update Channel` can be overridden by checking the option within `Options` > `General` > `Update Channel` > `Override Update Channel` 
 - It shouldn't overwrite configs unless `New Install` is displayed. However, backup beforehand.
 - Temp files are stored within `TempUpdate` and are deleted upon completion.
 - [GUIDE](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md) for detailed instructions
