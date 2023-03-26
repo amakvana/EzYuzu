@@ -57,6 +57,8 @@ Requires:
 
 Extract the entire contentsof the `EzYuzu.zip` file, including all `.dll` files, into a folder and run `EzYuzu.exe`
 
+![EzYuzuSetupAnimated](images/ezyuzu-setup.gif)
+
 EzYuzu is 100% portable - it can be run from any location.
 
 EzYuzu requires Administrator privileges to ensure Dependencies can be installed.
