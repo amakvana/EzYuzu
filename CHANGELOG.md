@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file.
 - Updated `Ookii.Dialogs.WinForms` binaries from `1.2.0` to `4.0.0`
 - Another code refactor to handle both Update Channels. Removed redundant code
 - Improved yuzu version detection - checks current channel through `yuzu-cmd.exe`
+- Path handling - now uses `Path.Combine` to build filepaths instead of hard-coding
 - Further UI tweaks to improve UX
   - Disabling dropdowns and other controls when `btnProcess` is initiated
 
