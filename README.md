@@ -5,7 +5,7 @@
 
 # EzYuzu
 
-A Portable Yuzu Updater for Standalone versions of Yuzu.
+A Portable Yuzu Updater for Standalone versions of Yuzu Mainline or Early Access (EA).
 
 Perfect for those who run Yuzu off an External HDD or through (but not limited to) frontends such as LaunchBox, Steam, EmulationStation and HyperSpin.
 
