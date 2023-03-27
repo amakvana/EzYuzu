@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace EzYuzu
@@ -87,8 +86,7 @@ namespace EzYuzu
             using var client = new WebClient();
             client.Headers.Add("User-Agent", "request");
             string json = await client.DownloadStringTaskAsync(new Uri(MainlineYuzuRepoJsonUrl));
-            using var stream = new MemoryStream(Encoding.Default.GetBytes(json));
-            return await JsonSerializer.DeserializeAsync<Repo>(stream).ConfigureAwait(false);
+            return JsonConvert.DeserializeObject<Repo>(json);
         }
     }
 }

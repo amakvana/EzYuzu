@@ -1,256 +1,256 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace EzYuzu
 {
-    // Repo myDeserializedClass = await JsonSerializer.DeserializeAsync<Repo>(myJsonResponse);
+    // Repo myDeserializedClass = JsonConvert.DeserializeObject<Repo>(jsonString);
     public sealed class Asset
     {
-        [JsonPropertyName("url")]
+        [JsonProperty("url")]
         public string Url { get; set; }
 
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public int? Id { get; set; }
 
-        [JsonPropertyName("node_id")]
+        [JsonProperty("node_id")]
         public string NodeId { get; set; }
 
-        [JsonPropertyName("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("label")]
+        [JsonProperty("label")]
         public string Label { get; set; }
 
-        [JsonPropertyName("uploader")]
+        [JsonProperty("uploader")]
         public Uploader Uploader { get; set; }
 
-        [JsonPropertyName("content_type")]
+        [JsonProperty("content_type")]
         public string ContentType { get; set; }
 
-        [JsonPropertyName("state")]
+        [JsonProperty("state")]
         public string State { get; set; }
 
-        [JsonPropertyName("size")]
+        [JsonProperty("size")]
         public int? Size { get; set; }
 
-        [JsonPropertyName("download_count")]
+        [JsonProperty("download_count")]
         public int? DownloadCount { get; set; }
 
-        [JsonPropertyName("created_at")]
+        [JsonProperty("created_at")]
         public DateTime? CreatedAt { get; set; }
 
-        [JsonPropertyName("updated_at")]
+        [JsonProperty("updated_at")]
         public DateTime? UpdatedAt { get; set; }
 
-        [JsonPropertyName("browser_download_url")]
+        [JsonProperty("browser_download_url")]
         public string BrowserDownloadUrl { get; set; }
     }
 
     public sealed class Author
     {
-        [JsonPropertyName("login")]
+        [JsonProperty("login")]
         public string Login { get; set; }
 
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public int? Id { get; set; }
 
-        [JsonPropertyName("node_id")]
+        [JsonProperty("node_id")]
         public string NodeId { get; set; }
 
-        [JsonPropertyName("avatar_url")]
+        [JsonProperty("avatar_url")]
         public string AvatarUrl { get; set; }
 
-        [JsonPropertyName("gravatar_id")]
+        [JsonProperty("gravatar_id")]
         public string GravatarId { get; set; }
 
-        [JsonPropertyName("url")]
+        [JsonProperty("url")]
         public string Url { get; set; }
 
-        [JsonPropertyName("html_url")]
+        [JsonProperty("html_url")]
         public string HtmlUrl { get; set; }
 
-        [JsonPropertyName("followers_url")]
+        [JsonProperty("followers_url")]
         public string FollowersUrl { get; set; }
 
-        [JsonPropertyName("following_url")]
+        [JsonProperty("following_url")]
         public string FollowingUrl { get; set; }
 
-        [JsonPropertyName("gists_url")]
+        [JsonProperty("gists_url")]
         public string GistsUrl { get; set; }
 
-        [JsonPropertyName("starred_url")]
+        [JsonProperty("starred_url")]
         public string StarredUrl { get; set; }
 
-        [JsonPropertyName("subscriptions_url")]
+        [JsonProperty("subscriptions_url")]
         public string SubscriptionsUrl { get; set; }
 
-        [JsonPropertyName("organizations_url")]
+        [JsonProperty("organizations_url")]
         public string OrganizationsUrl { get; set; }
 
-        [JsonPropertyName("repos_url")]
+        [JsonProperty("repos_url")]
         public string ReposUrl { get; set; }
 
-        [JsonPropertyName("events_url")]
+        [JsonProperty("events_url")]
         public string EventsUrl { get; set; }
 
-        [JsonPropertyName("received_events_url")]
+        [JsonProperty("received_events_url")]
         public string ReceivedEventsUrl { get; set; }
 
-        [JsonPropertyName("type")]
+        [JsonProperty("type")]
         public string Type { get; set; }
 
-        [JsonPropertyName("site_admin")]
+        [JsonProperty("site_admin")]
         public bool? SiteAdmin { get; set; }
     }
 
     public sealed class Reactions
     {
-        [JsonPropertyName("url")]
+        [JsonProperty("url")]
         public string Url { get; set; }
 
-        [JsonPropertyName("total_count")]
+        [JsonProperty("total_count")]
         public int? TotalCount { get; set; }
 
-        [JsonPropertyName("+1")]
+        [JsonProperty("+1")]
         public int? Plus1 { get; set; }
 
-        [JsonPropertyName("-1")]
+        [JsonProperty("-1")]
         public int? Minus1 { get; set; }
 
-        [JsonPropertyName("laugh")]
+        [JsonProperty("laugh")]
         public int? Laugh { get; set; }
 
-        [JsonPropertyName("hooray")]
+        [JsonProperty("hooray")]
         public int? Hooray { get; set; }
 
-        [JsonPropertyName("confused")]
+        [JsonProperty("confused")]
         public int? Confused { get; set; }
 
-        [JsonPropertyName("heart")]
+        [JsonProperty("heart")]
         public int? Heart { get; set; }
 
-        [JsonPropertyName("rocket")]
+        [JsonProperty("rocket")]
         public int? Rocket { get; set; }
 
-        [JsonPropertyName("eyes")]
+        [JsonProperty("eyes")]
         public int? Eyes { get; set; }
     }
 
     public sealed class Repo
     {
-        [JsonPropertyName("url")]
+        [JsonProperty("url")]
         public string Url { get; set; }
 
-        [JsonPropertyName("assets_url")]
+        [JsonProperty("assets_url")]
         public string AssetsUrl { get; set; }
 
-        [JsonPropertyName("upload_url")]
+        [JsonProperty("upload_url")]
         public string UploadUrl { get; set; }
 
-        [JsonPropertyName("html_url")]
+        [JsonProperty("html_url")]
         public string HtmlUrl { get; set; }
 
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public int? Id { get; set; }
 
-        [JsonPropertyName("author")]
+        [JsonProperty("author")]
         public Author Author { get; set; }
 
-        [JsonPropertyName("node_id")]
+        [JsonProperty("node_id")]
         public string NodeId { get; set; }
 
-        [JsonPropertyName("tag_name")]
+        [JsonProperty("tag_name")]
         public string TagName { get; set; }
 
-        [JsonPropertyName("target_commitish")]
+        [JsonProperty("target_commitish")]
         public string TargetCommitish { get; set; }
 
-        [JsonPropertyName("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("draft")]
+        [JsonProperty("draft")]
         public bool? Draft { get; set; }
 
-        [JsonPropertyName("prerelease")]
+        [JsonProperty("prerelease")]
         public bool? Prerelease { get; set; }
 
-        [JsonPropertyName("created_at")]
+        [JsonProperty("created_at")]
         public DateTime? CreatedAt { get; set; }
 
-        [JsonPropertyName("published_at")]
+        [JsonProperty("published_at")]
         public DateTime? PublishedAt { get; set; }
 
-        [JsonPropertyName("assets")]
+        [JsonProperty("assets")]
         public List<Asset> Assets { get; set; }
 
-        [JsonPropertyName("tarball_url")]
+        [JsonProperty("tarball_url")]
         public string TarballUrl { get; set; }
 
-        [JsonPropertyName("zipball_url")]
+        [JsonProperty("zipball_url")]
         public string ZipballUrl { get; set; }
 
-        [JsonPropertyName("body")]
+        [JsonProperty("body")]
         public string Body { get; set; }
 
-        [JsonPropertyName("reactions")]
+        [JsonProperty("reactions")]
         public Reactions Reactions { get; set; }
     }
 
     public sealed class Uploader
     {
-        [JsonPropertyName("login")]
+        [JsonProperty("login")]
         public string Login { get; set; }
 
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public int? Id { get; set; }
 
-        [JsonPropertyName("node_id")]
+        [JsonProperty("node_id")]
         public string NodeId { get; set; }
 
-        [JsonPropertyName("avatar_url")]
+        [JsonProperty("avatar_url")]
         public string AvatarUrl { get; set; }
 
-        [JsonPropertyName("gravatar_id")]
+        [JsonProperty("gravatar_id")]
         public string GravatarId { get; set; }
 
-        [JsonPropertyName("url")]
+        [JsonProperty("url")]
         public string Url { get; set; }
 
-        [JsonPropertyName("html_url")]
+        [JsonProperty("html_url")]
         public string HtmlUrl { get; set; }
 
-        [JsonPropertyName("followers_url")]
+        [JsonProperty("followers_url")]
         public string FollowersUrl { get; set; }
 
-        [JsonPropertyName("following_url")]
+        [JsonProperty("following_url")]
         public string FollowingUrl { get; set; }
 
-        [JsonPropertyName("gists_url")]
+        [JsonProperty("gists_url")]
         public string GistsUrl { get; set; }
 
-        [JsonPropertyName("starred_url")]
+        [JsonProperty("starred_url")]
         public string StarredUrl { get; set; }
 
-        [JsonPropertyName("subscriptions_url")]
+        [JsonProperty("subscriptions_url")]
         public string SubscriptionsUrl { get; set; }
 
-        [JsonPropertyName("organizations_url")]
+        [JsonProperty("organizations_url")]
         public string OrganizationsUrl { get; set; }
 
-        [JsonPropertyName("repos_url")]
+        [JsonProperty("repos_url")]
         public string ReposUrl { get; set; }
 
-        [JsonPropertyName("events_url")]
+        [JsonProperty("events_url")]
         public string EventsUrl { get; set; }
 
-        [JsonPropertyName("received_events_url")]
+        [JsonProperty("received_events_url")]
         public string ReceivedEventsUrl { get; set; }
 
-        [JsonPropertyName("type")]
+        [JsonProperty("type")]
         public string Type { get; set; }
 
-        [JsonPropertyName("site_admin")]
+        [JsonProperty("site_admin")]
         public bool? SiteAdmin { get; set; }
     }
 }

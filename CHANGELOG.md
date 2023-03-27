@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.5.1.0] - 2023-03-27
+
+### Changed
+
+- Downgraded `Ookii.Dialogs.WinForms` binaries from `4.0.0` to `1.2.0` due to incompatibilities with certain systems and configurations
+- Switched `System.Text.Json` to `Newtonsoft.Json` due to incompatibilities with certain systems and configurations
+- Tweaked `GetEarlyAccessGitHubRepoJsonData()` within `EarlyAccessYuzuManager.cs` to remove the `MemoryStream` dependency
+- Tweaked `GetMainlineGitHubRepoJsonData()` within `MainlineYuzuManager.cs` to remove the `MemoryStream` dependency
+
+### Fixed
+
+- [Issue #15](https://github.com/amakvana/EzYuzu/issues/15) - Can't load 'System.Runtime.CompilerServices.Unsafe'
+
+<br>
+
 ## [1.5.0.0] - 2023-03-26
 
 ### Added
@@ -12,7 +27,7 @@ All notable changes to this project will be documented in this file.
   - Mainline remains default for `New Install`, unless overridden.
 - Ability to switch Update Channels for current installations.
   - `Options` > `General` > `Update Channel` > `Override Update Channel`
-- EzYuzu will automatically detect which Update Channel the seelcted copy of Yuzu is on.
+- EzYuzu will automatically detect which Update Channel the selected copy of Yuzu is on.
 
 ### Changed
 
