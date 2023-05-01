@@ -5,26 +5,10 @@ namespace EzYuzu
 {
     public sealed class YuzuInstallationStateDetector
     {
-        private readonly YuzuBranchDetector.Branch yuzuBranch;
-        private readonly string yuzuDirectoryPath;
-
-        public YuzuInstallationStateDetector(string yuzuDirectoryPath, YuzuBranchDetector.Branch yuzuBranch)
-        {
-            this.yuzuBranch = yuzuBranch;
-            this.yuzuDirectoryPath = yuzuDirectoryPath;
-        }
-
-        public enum YuzuInstallationState
-        {
-            LatestVersionInstalled,
-            UpdateAvailable,
-            NoInstallDetected
-        }
-
-        public async Task<YuzuInstallationState> GetYuzuInstallationStateAsync()
+        public async static Task<YuzuInstallationState> GetYuzuInstallationStateAsync(string yuzuDirectoryPath, YuzuBranchEnum yuzuBranch)
         {
             // if yuzu.exe doesn't exist in the current directory, it's not setup 
-            if (yuzuBranch == YuzuBranchDetector.Branch.None || !File.Exists(Path.Combine(yuzuDirectoryPath, "yuzu.exe")))
+            if (yuzuBranch == YuzuBranchEnum.None || !File.Exists(Path.Combine(yuzuDirectoryPath, "yuzu.exe")))
                 return YuzuInstallationState.NoInstallDetected;
 
             // yuzu.exe exists 
@@ -39,13 +23,13 @@ namespace EzYuzu
             string repo = "";
             switch (yuzuBranch)
             {
-                case YuzuBranchDetector.Branch.Mainline:
+                case YuzuBranchEnum.Mainline:
                     repo = "https://github.com/yuzu-emu/yuzu-mainline/releases/latest";
                     break;
-                case YuzuBranchDetector.Branch.EarlyAccess:
+                case YuzuBranchEnum.EarlyAccess:
                     repo = "https://github.com/pineappleEA/pineapple-src/releases/latest";
                     break;
-                case YuzuBranchDetector.Branch.None:
+                case YuzuBranchEnum.None:
                 default:
                     break;
             }

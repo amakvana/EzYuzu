@@ -5,34 +5,20 @@ namespace EzYuzu
 {
     public sealed class YuzuBranchDetector
     {
-        private readonly string yuzuDirectoryPath;
-
-        public YuzuBranchDetector(string yuzuDirectoryPath)
-        {
-            this.yuzuDirectoryPath = yuzuDirectoryPath;
-        }
-
-        public enum Branch
-        {
-            Mainline,
-            EarlyAccess,
-            None
-        }
-
-        /// <summary>
-        /// Gets the current branch from yuzu-cmd
-        /// </summary>
-        /// <returns>Branch</returns>
-        public Branch GetCurrentlyInstalledBranch()
+		/// <summary>
+		/// Gets the current branch from yuzu-cmd
+		/// </summary>
+		/// <returns>Branch</returns>
+		public static YuzuBranchEnum GetCurrentlyInstalledBranch(string yuzuDirectoryPath)
         {
             string yuzuCmdPath = Path.Combine(yuzuDirectoryPath, "yuzu-cmd.exe");
 
             // if yuzu-cmd not detected, return no branch 
             if (!File.Exists(yuzuCmdPath))
-                return Branch.None;
+                return YuzuBranchEnum.None;
 
             // if yuzu-cmd exists, run it with --version switch and get branch 
-            var currBranch = Branch.None;
+            var currBranch = YuzuBranchEnum.None;
             var psi = new ProcessStartInfo
             {
                 CreateNoWindow = true,
@@ -50,10 +36,10 @@ namespace EzYuzu
                     if (e.Data != null)
                     {
                         if (e.Data.Contains("early-access"))
-                            currBranch = Branch.EarlyAccess;
+                            currBranch = YuzuBranchEnum.EarlyAccess;
 
                         if (e.Data.Contains("mainline"))
-                            currBranch = Branch.Mainline;
+                            currBranch = YuzuBranchEnum.Mainline;
                     }
                 };
 
@@ -70,14 +56,22 @@ namespace EzYuzu
         /// </summary>
         /// <param name="overriddenUpdateChannelIndex">Update Channel Dropdown Index</param>
         /// <returns>Branch</returns>
-        public Branch GetCurrentlyInstalledBranch(int overriddenUpdateChannelIndex)
+        public static YuzuBranchEnum GetCurrentlyInstalledBranch(int overriddenUpdateChannelIndex)
         {
             return overriddenUpdateChannelIndex switch
             {
-                (int)Branch.Mainline => Branch.Mainline,
-                (int)Branch.EarlyAccess => Branch.EarlyAccess,
-                _ => Branch.Mainline,   // fallback
+                (int)YuzuBranchEnum.Mainline => YuzuBranchEnum.Mainline,
+                (int)YuzuBranchEnum.EarlyAccess => YuzuBranchEnum.EarlyAccess,
+                _ => YuzuBranchEnum.Mainline,   // fallback
             };
         }
-    }
+
+        public static int GetCurrentlyInstalledBranch(YuzuBranch overriddenUpdateChannelBranch) {
+			return overriddenUpdateChannelBranch.branch switch {
+				YuzuBranchEnum.Mainline => 0,
+				YuzuBranchEnum.EarlyAccess => 1,
+				_ => 0,   // fallback
+			};
+		}
+	}
 }

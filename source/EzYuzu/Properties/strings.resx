@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ButtonProcessNewInstall" xml:space="preserve">
+    <value>New Install</value>
+  </data>
+  <data name="ButtonProcessSelectYuzuLocation" xml:space="preserve">
+    <value>Select the Directory containing Yuzu.exe</value>
+  </data>
+  <data name="ButtonProcessUpdateYuzu" xml:space="preserve">
+    <value>Update Yuzu</value>
+  </data>
+  <data name="ButtonProcessYuzuUpToDate" xml:space="preserve">
+    <value>Yuzu is currently Up-To-Date!</value>
+  </data>
+  <data name="ComboBoxUpdateChannelEarlyAccess" xml:space="preserve">
+    <value>Early Access</value>
+  </data>
+  <data name="ComboBoxUpdateChannelMainline" xml:space="preserve">
+    <value>Mainline</value>
+  </data>
+  <data name="FolderBrowserTitle" xml:space="preserve">
+    <value>Browse to the folder containing yuzu.exe</value>
+  </data>
+  <data name="FormAboutTitle" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="FormMainTitle" xml:space="preserve">
+    <value>EzYuzu - Yuzu Portable Updater</value>
+  </data>
+  <data name="LabelUpdateChannel" xml:space="preserve">
+    <value>Update Channel:</value>
+  </data>
+  <data name="LabelUpdateChannelAutoDetected" xml:space="preserve">
+    <value>Update Channel (Auto-Detected):</value>
+  </data>
+  <data name="LabelVersion" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="LabelYuzuLocation" xml:space="preserve">
+    <value>Browse to Yuzu.exe Folder Location:</value>
+  </data>
+  <data name="MessageBoxNoPathSelected" xml:space="preserve">
+    <value>Please browse and select your Yuzu.exe folder location first</value>
+  </data>
+  <data name="ProcessPreventNewInstall" xml:space="preserve">
+    <value>New Yuzu install prevented with prevent-new flag.</value>
+  </data>
+  <data name="ProcessYuzuLocationInvalid" xml:space="preserve">
+    <value>Provided Yuzu folder is not a valid directory</value>
+  </data>
+  <data name="TextBoxAboutDescription" xml:space="preserve">
+    <value>EzYuzu
+Yuzu Portable Updater (Unofficial) by amakvana
+
+https://github.com/amakvana/EzYuzu
+
+This software is licensed under GNU GPL-3.0
+Source code is available in repository above
+
+Credits: https://github.com/amakvana/EzYuzu#acknowledgements
+
+Disclaimer:
+This software comes with no warranty, express or implied nor does the author makes no representation of warranties. The author claims no responsibility for damages resulting from any use or misuse of the software.</value>
+  </data>
+  <data name="ToolStripAbout" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="ToolStripCheckForUpdates" xml:space="preserve">
+    <value>Check for Updates</value>
+  </data>
+  <data name="ToolStripExit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="ToolStripFile" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="ToolStripGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="ToolStripHelp" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="ToolStripOptions" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="ToolStripOverrideUpdateChannel" xml:space="preserve">
+    <value>Override Update Channel</value>
+  </data>
+  <data name="ToolStripReinstallVisualC" xml:space="preserve">
+    <value>Reinstall Visual C++</value>
+  </data>
+  <data name="ToolStripUpdateChannel" xml:space="preserve">
+    <value>Update Channel</value>
+  </data>
+  <data name="ToolStripUpdateYuzu" xml:space="preserve">
+    <value>Update Yuzu</value>
+  </data>
+  <data name="ToolStripYuzuWebsite" xml:space="preserve">
+    <value>Yuzu Website</value>
+  </data>
+  <data name="ToolTipButtonProcessNewInstall" xml:space="preserve">
+    <value>Yuzu not detected, click to download a fresh copy of Yuzu</value>
+  </data>
+  <data name="ToolTipButtonProcessUpdateYuzu" xml:space="preserve">
+    <value>Click to download the latest version of Yuzu</value>
+  </data>
+  <data name="ToolTipButtonProcessYuzuUpToDate" xml:space="preserve">
+    <value>The latest version of Yuzu is currently installed</value>
+  </data>
+  <data name="ToolTipCurrentProgress" xml:space="preserve">
+    <value>Progress completed of current action</value>
+  </data>
+  <data name="ToolTipUpdateChannel" xml:space="preserve">
+    <value>The current Update Channel of Yuzu. Auto-detected when the Yuzu Path is selected.
+Can be manually overridden by going into Options &gt; General &gt; Update Channel &gt; Override Update Channel.
+
+Mainline - Contains all regular daily Yuzu updates. More stable.
+Early Access - Contains the latest experimental features and fixes, before they are merged into Mainline builds. Less stable.
+
+When no channel is detected, EzYuzu defaults to Mainline.</value>
+  </data>
+  <data name="ToolTipYuzuLocation" xml:space="preserve">
+    <value>Click and browse to your Yuzu.exe Folder Location</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>New version of EzYuzu available, please download from https://github.com/amakvana/EzYuzu</value>
+  </data>
+  <data name="UpdateLatestVersion" xml:space="preserve">
+    <value>You currently have the latest version of EzYuzu</value>
+  </data>
+  <data name="UpdateNotSupported" xml:space="preserve">
+    <value>This version of EzYuzu is no longer supported, please download the latest version from https://github.com/amakvana/EzYuzu</value>
+  </data>
+</root>

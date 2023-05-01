@@ -9,21 +9,14 @@ namespace EzYuzu
         public FrmAbout()
         {
             InitializeComponent();
-            this.Text = String.Format("About {0}", AssemblyTitle);
+            this.Text = Properties.strings.FormAboutTitle + " " + AssemblyTitle;
             this.labelProductName.Text = AssemblyProduct;
-            this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+            this.labelVersion.Text = Properties.strings.LabelVersion + " " + AssemblyVersion;
             //this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;
             //this.textBoxDescription.Text = AssemblyDescription;
-            this.textBoxDescription.Text = String.Format("EzYuzu {0}" +
-                "Yuzu Portable Updater (Unofficial) by amakvana {0}{0}" +
-                "https://github.com/amakvana/EzYuzu {0}{0}" +
-                "This software is licensed under GNU GPL-3.0 {0}" +
-                "Source code is available in repository above {0}{0}" +
-                "Credits: https://github.com/amakvana/EzYuzu#acknowledgements {0}{0}" +
-                "Disclaimer: {0}" +
-                "This software comes with no warranty, express or implied nor does the author makes no representation of warranties. The author claims no responsibility for damages resulting from any use or misuse of the software.", Environment.NewLine);
-        }
+            this.textBoxDescription.Text = Properties.strings.TextBoxAboutDescription;
+		}
 
         #region Assembly Attribute Accessors
 

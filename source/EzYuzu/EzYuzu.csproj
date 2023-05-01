@@ -58,6 +58,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommandLine, Version=2.9.1.0, Culture=neutral, PublicKeyToken=5a870481e358d379, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommandLineParser.2.9.1\lib\net461\CommandLine.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -84,14 +87,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AppUpdater.cs" />
-    <Compile Include="Classes\DirectoryUtilities.cs" />
-    <Compile Include="Classes\EarlyAccessYuzuManager.cs" />
+    <Compile Include="Classes\Branch\YuzuBranch.cs" />
+    <Compile Include="Classes\Branch\YuzuBranchEnum.cs" />
+    <Compile Include="Classes\CLOptions\CheckForUpdateOptions.cs" />
+    <Compile Include="Classes\CLOptions\GuiOptions.cs" />
+    <Compile Include="Classes\CLOptions\InstallOptions.cs" />
+    <Compile Include="Classes\Utilities\DirectoryUtilities.cs" />
+    <Compile Include="Classes\InstallationState\YuzuInstallationState.cs" />
+    <Compile Include="Classes\InstallationState\YuzuInstallationStateEnum.cs" />
+    <Compile Include="Classes\YuzuManager\EarlyAccessYuzuManager.cs" />
     <Compile Include="Classes\GitHubRepo.cs" />
-    <Compile Include="Classes\MainlineYuzuManager.cs" />
-    <Compile Include="Classes\YuzuBranchDetector.cs" />
-    <Compile Include="Classes\YuzuInstallationStateDetector.cs" />
-    <Compile Include="Classes\YuzuManager.cs" />
-    <Compile Include="Classes\YuzuUtilities.cs" />
+    <Compile Include="Classes\YuzuManager\MainlineYuzuManager.cs" />
+    <Compile Include="Classes\Branch\YuzuBranchDetector.cs" />
+    <Compile Include="Classes\InstallationState\YuzuInstallationStateDetector.cs" />
+    <Compile Include="Classes\YuzuManager\YuzuManager.cs" />
+    <Compile Include="Classes\Utilities\YuzuUtilities.cs" />
+    <Compile Include="Classes\YuzuUpdater.cs" />
     <Compile Include="frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +117,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strings.resx</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
@@ -122,6 +138,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Properties\strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
