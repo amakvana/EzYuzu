@@ -88,18 +88,26 @@ namespace EzYuzu
             {
                 // install visual c++
                 UpdateProgress(0, "Installing Visual C++ ...");
-                var psi = new ProcessStartInfo
+                try
                 {
-                    FileName = vcRedistPath,
-                    Arguments = "/install /quiet /norestart",
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    CreateNoWindow = true
-                };
-                using (var p = Process.Start(psi))
-                {
-                    p.WaitForExit();
+                    var psi = new ProcessStartInfo
+                    {
+                        FileName = vcRedistPath,
+                        Arguments = "/install /quiet /norestart",
+                        WindowStyle = ProcessWindowStyle.Hidden,
+                        CreateNoWindow = true,
+                        Verb = "runas"
+                    };
+                    using (var p = Process.Start(psi))
+                    {
+                        p.WaitForExit();
+                    }
+                    UpdateProgress(100, "Done");
                 }
-                UpdateProgress(100, "Done");
+                catch (Exception)
+                {
+                    UpdateProgress(100, "Error: UAC Authorisation Required");
+                }
             };
             client.DownloadProgressChanged += (s, e) => UpdateProgress(e.ProgressPercentage, "Downloading Visual C++ ...");
             await client.DownloadFileTaskAsync(new Uri("https://aka.ms/vs/16/release/vc_redist.x64.exe"), vcRedistPath);
