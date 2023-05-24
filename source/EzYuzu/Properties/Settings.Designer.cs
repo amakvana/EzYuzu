@@ -46,5 +46,29 @@ namespace EzYuzu.Properties {
                 this["LaunchYuzuAfterUpdate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ExitAfterUpdate {
+            get {
+                return ((bool)(this["ExitAfterUpdate"]));
+            }
+            set {
+                this["ExitAfterUpdate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoUpdateOnEzYuzuStart {
+            get {
+                return ((bool)(this["AutoUpdateOnEzYuzuStart"]));
+            }
+            set {
+                this["AutoUpdateOnEzYuzuStart"] = value;
+            }
+        }
     }
 }

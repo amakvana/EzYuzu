@@ -42,6 +42,8 @@
             updateYuzuToolStripMenuItem = new ToolStripMenuItem();
             launchYuzuAfterUpdateToolStripMenuItem = new ToolStripMenuItem();
             reinstallVisualCToolStripMenuItem = new ToolStripMenuItem();
+            exitAfterUpdateToolStripMenuItem = new ToolStripMenuItem();
+            autoupdateOnEzYuzuStartToolStripMenuItem = new ToolStripMenuItem();
             advancedToolStripMenuItem = new ToolStripMenuItem();
             overrideUpdateChannelToolStripMenuItem = new ToolStripMenuItem();
             overrideUpdateVersionToolStripMenuItem = new ToolStripMenuItem();
@@ -141,21 +143,21 @@
             // 
             generalToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { updateYuzuToolStripMenuItem });
             generalToolStripMenuItem.Name = "generalToolStripMenuItem";
-            generalToolStripMenuItem.Size = new Size(127, 22);
+            generalToolStripMenuItem.Size = new Size(180, 22);
             generalToolStripMenuItem.Text = "General";
             // 
             // updateYuzuToolStripMenuItem
             // 
-            updateYuzuToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { launchYuzuAfterUpdateToolStripMenuItem, reinstallVisualCToolStripMenuItem });
+            updateYuzuToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { launchYuzuAfterUpdateToolStripMenuItem, reinstallVisualCToolStripMenuItem, exitAfterUpdateToolStripMenuItem, autoupdateOnEzYuzuStartToolStripMenuItem });
             updateYuzuToolStripMenuItem.Name = "updateYuzuToolStripMenuItem";
-            updateYuzuToolStripMenuItem.Size = new Size(141, 22);
+            updateYuzuToolStripMenuItem.Size = new Size(180, 22);
             updateYuzuToolStripMenuItem.Text = "Update Yuzu";
             // 
             // launchYuzuAfterUpdateToolStripMenuItem
             // 
             launchYuzuAfterUpdateToolStripMenuItem.CheckOnClick = true;
             launchYuzuAfterUpdateToolStripMenuItem.Name = "launchYuzuAfterUpdateToolStripMenuItem";
-            launchYuzuAfterUpdateToolStripMenuItem.Size = new Size(209, 22);
+            launchYuzuAfterUpdateToolStripMenuItem.Size = new Size(225, 22);
             launchYuzuAfterUpdateToolStripMenuItem.Text = "Launch Yuzu after update";
             launchYuzuAfterUpdateToolStripMenuItem.ToolTipText = "Launch Yuzu after Update or New Install is complete";
             // 
@@ -164,15 +166,31 @@
             reinstallVisualCToolStripMenuItem.CheckOnClick = true;
             reinstallVisualCToolStripMenuItem.Enabled = false;
             reinstallVisualCToolStripMenuItem.Name = "reinstallVisualCToolStripMenuItem";
-            reinstallVisualCToolStripMenuItem.Size = new Size(209, 22);
+            reinstallVisualCToolStripMenuItem.Size = new Size(225, 22);
             reinstallVisualCToolStripMenuItem.Text = "Reinstall Visual C++";
             reinstallVisualCToolStripMenuItem.ToolTipText = "Automatically reinstall Visual C++ Redistrbutables when EzYuzu is run as Administrator";
+            // 
+            // exitAfterUpdateToolStripMenuItem
+            // 
+            exitAfterUpdateToolStripMenuItem.CheckOnClick = true;
+            exitAfterUpdateToolStripMenuItem.Name = "exitAfterUpdateToolStripMenuItem";
+            exitAfterUpdateToolStripMenuItem.Size = new Size(225, 22);
+            exitAfterUpdateToolStripMenuItem.Text = "Exit after update";
+            exitAfterUpdateToolStripMenuItem.ToolTipText = "Exit EzYuzu after Yuzu has been updated";
+            // 
+            // autoupdateOnEzYuzuStartToolStripMenuItem
+            // 
+            autoupdateOnEzYuzuStartToolStripMenuItem.CheckOnClick = true;
+            autoupdateOnEzYuzuStartToolStripMenuItem.Name = "autoupdateOnEzYuzuStartToolStripMenuItem";
+            autoupdateOnEzYuzuStartToolStripMenuItem.Size = new Size(225, 22);
+            autoupdateOnEzYuzuStartToolStripMenuItem.Text = "Auto-update on EzYuzu start";
+            autoupdateOnEzYuzuStartToolStripMenuItem.ToolTipText = "Automatically update Yuzu when EzYuzu is launched";
             // 
             // advancedToolStripMenuItem
             // 
             advancedToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { overrideUpdateChannelToolStripMenuItem, overrideUpdateVersionToolStripMenuItem });
             advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
-            advancedToolStripMenuItem.Size = new Size(127, 22);
+            advancedToolStripMenuItem.Size = new Size(180, 22);
             advancedToolStripMenuItem.Text = "Advanced";
             // 
             // overrideUpdateChannelToolStripMenuItem
@@ -366,5 +384,7 @@
         private Label lblUpdateVersion;
         private ComboBox cboUpdateVersion;
         private GroupBox grpOptions;
+        private ToolStripMenuItem exitAfterUpdateToolStripMenuItem;
+        private ToolStripMenuItem autoupdateOnEzYuzuStartToolStripMenuItem;
     }
 }

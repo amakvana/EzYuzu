@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.6.1.0] - 2023-05-24
+
+### Added
+
+- Added ability to automatically close EzYuzu once update has completed - thanks [@OsoaGH](https://github.com/amakvana/EzYuzu/issues/27)
+  - Toggle can be found under `Options` > `General` > `Update Yuzu`
+- Added ability to automatically begin updating Yuzu when EzYuzu has loaded - thanks [@OsoaGH](https://github.com/amakvana/EzYuzu/issues/27)
+  - Toggle can be found under `Options` > `General` > `Update Yuzu`
+
+### Changed
+
+- `Launch Yuzu after Update` within the GUI now launches Yuzu instantly if the currently installed version is the latest, no need to pull another copy - thanks [@Xarishark](https://github.com/amakvana/EzYuzu/issues/25)
+- Added additional logic to `-p` command line switch to detect if full `yuzu.exe` path has been passed in, if so, to get directory file name instead
+
+### Fixed
+
+- [Issue #26](https://github.com/amakvana/EzYuzu/issues/26) - fixed scaling issues when Main form resizes certain controls - thanks [@buthig666, @Spyke8x, @YoLolo69, @mjd180](https://github.com/amakvana/EzYuzu/issues/26)
+- Rare GUI bug where `BtnProcess` would enable even if no directory was set
+- Rare bug which may cause SocketException - thanks [@Xarishark](https://github.com/amakvana/EzYuzu/issues/25)
+
+<br>
+
 ## [1.6.0.0] - 2023-05-24
 
 ### Added

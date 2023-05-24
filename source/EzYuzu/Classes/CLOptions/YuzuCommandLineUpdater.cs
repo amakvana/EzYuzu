@@ -23,15 +23,18 @@ namespace EzYuzu.Classes.CLOptions
             if (yuzuLocationPath is null)
                 return;
 
+            // if yuzuLocationPath passed in is something like D:\path\to\yuzu\yuzu.exe
+            // modify the path so it strips the file from the path and return the absolute directory only 
+            if (yuzuLocationPath.EndsWith("yuzu.exe", StringComparison.OrdinalIgnoreCase))
+                yuzuLocationPath = Path.GetDirectoryName(yuzuLocationPath);
+
             // if no branch passed in, auto detect branch
             var branchDetector = new YuzuBranchDetector(clientFactory!)
             {
-                YuzuDirectoryPath = yuzuLocationPath
+                YuzuDirectoryPath = yuzuLocationPath!
             };
             if (branch == YuzuBranch.None)
-            {
                 branch = await branchDetector.GetCurrentlyInstalledBranchAsync();
-            }
 
             // get available update versions based on branch passed in 
             var availableBranchVersions = await branchDetector.GetDetectedBranchAvailableUpdateVersionsAsync(branch);
@@ -61,8 +64,22 @@ namespace EzYuzu.Classes.CLOptions
 
             // detect whether current install is up-to-date
             // if not, process update or new install
-            var stateDetector = new YuzuInstallationStateDetector(yuzuLocationPath, branch);
+            var stateDetector = new YuzuInstallationStateDetector(yuzuLocationPath!, branch);
             var installationState = await stateDetector.GetYuzuInstallationStateAsync(latestVersionAvailableFromBranch);
+
+            // if we have the latest version of Yuzu installed and Launch Yuzu is selected 
+            // no point parsing the info, just launch Yuzu
+            // speeds up processing 
+            if (installationState == YuzuInstallationState.LatestVersionInstalled && launchYuzu)
+            {
+                Process.Start(new ProcessStartInfo(Path.Combine(yuzuLocationPath!, "yuzu.exe"))
+                {
+                    UseShellExecute = true
+                })?.Dispose();
+                return;
+            }
+
+            // if Yuzu detected is not the latest version, process new install / update
 
             // prepare YuzuManager
             YuzuManager yuzuManager = branch switch
@@ -71,8 +88,8 @@ namespace EzYuzu.Classes.CLOptions
                 _ => new MainlineYuzuManager(clientFactory!, latestVersionTagNameAndDownloadUrl.Key, latestVersionTagNameAndDownloadUrl.Value)
             };
 
-            yuzuManager.YuzuDirectoryPath = yuzuLocationPath;
-            yuzuManager.TempUpdateDirectoryPath = Path.Combine(yuzuLocationPath, "TempUpdate");
+            yuzuManager.YuzuDirectoryPath = yuzuLocationPath!;
+            yuzuManager.TempUpdateDirectoryPath = Path.Combine(yuzuLocationPath!, "TempUpdate");
             yuzuManager.UpdateVisualCppRedistributables = AppIsRunningAsAdministrator();
             await yuzuManager.DownloadPrerequisitesAsync();
 
@@ -99,7 +116,7 @@ namespace EzYuzu.Classes.CLOptions
             // launch Yuzu if option passed in
             if (launchYuzu)
             {
-                Process.Start(new ProcessStartInfo(Path.Combine(yuzuLocationPath, "yuzu.exe"))
+                Process.Start(new ProcessStartInfo(Path.Combine(yuzuLocationPath!, "yuzu.exe"))
                 {
                     UseShellExecute = true
                 })?.Dispose();
