@@ -42,7 +42,7 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
 - `Update Channel` and `Update Version` can be overridden by checking the options within `Options` > `Advanced`
 - It shouldn't overwrite configs unless `New Install` is displayed. However, backup beforehand.
 - Temp files are stored within `TempUpdate` and are deleted upon completion.
-- [GUIDE](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md) for detailed instructions, along with Command Line options.
+- [GUIDE](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md) for detailed instructions, along with [Command Line options](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md#command-line-interface-options).
 
 ## Downloads
 
