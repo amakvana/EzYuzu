@@ -4,6 +4,40 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.6.0.0] - 2023-05-24
+
+### Added
+
+- Complete rewrite in .NET 7. Goodbye .NET Framework 4.8.1 - better performance, newer c# features and increased support for await/async model
+- Ability to override Update Versions - this enables the ability to rollback versions - thanks [@Nicolas-Miranda](https://github.com/amakvana/EzYuzu/issues/16)
+  - `Options` > `Advanced` > `Override Update Versions`
+- Added Command Line arguments to allow EzYuzu to be executed via Command Line. This enables bulk updates in different locations, see [GUIDE](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md) for usage - thanks [@miapuffia](https://github.com/amakvana/EzYuzu/issues/17)
+- Added option to Launch Yuzu after successful update - thanks [@Xarishark](https://github.com/amakvana/EzYuzu/issues/21)
+  - `Options` > `General` > `Update Yuzu` > `Launch Yuzu after Update`
+- When EzYuzu detects a newer version of Yuzu available to install, the `Update` button now also displays the build number available - thanks [@Nicolas-Miranda](https://github.com/amakvana/EzYuzu/issues/16)
+- Added `.editorconfig` file to repo - thanks [@informagico](https://github.com/amakvana/EzYuzu/issues/20)
+
+### Changed
+
+- `EzYuzu` now bundles all `.dll` dependencies inside the executable - no need to drag any additional `.dll` files into EzYuzu's working directory
+- `EzYuzu` no longer requires Administrator rights to run - thanks [@stephannn](https://github.com/amakvana/EzYuzu/issues/1)
+- `Visual C++` is automatically installed when EzYuzu is ran as Administrator. Ignored when ran as User.
+- Goodbye `Newtonsoft.Json`, hello `System.Text.Json`
+  - Bundled into .NET 7 and adds better performance when pulling json data - incompatibilites before have been resolved
+- Goodbye `Ookii.Dialogs.WinForms`, .NET 7 now provides modern `FolderBrowseDialog`
+- Another code refactor to handle both Update Channels. Removed redundant code
+- Further GUI tweaks to improve UX
+  - Advanced options such as `Overriding Update Channel` and `Update Versions` is now moved to `Options` > `Advanced`. Hidden by default to declutter main UI
+- Removed redundant code from codebase
+- Optimised several methods to utilise await/async.
+- Retired `WebClient`, now utilises `IHttpClientFactory` to pull data - faster and memory efficient
+
+### Fixed
+
+- [Issue #22](https://github.com/amakvana/EzYuzu/issues/22) - EzYuzu now properly supports mapped drives for network drives, no need to type FQDN
+
+<br>
+
 ## [1.5.1.0] - 2023-03-27
 
 ### Changed

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Windows.Forms;
+﻿using System.Reflection;
 
 namespace EzYuzu
 {
@@ -12,7 +10,7 @@ namespace EzYuzu
             this.Text = String.Format("About {0}", AssemblyTitle);
             this.labelProductName.Text = AssemblyProduct;
             this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-            //this.labelCopyright.Text = AssemblyCopyright;
+            this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;
             //this.textBoxDescription.Text = AssemblyDescription;
             this.textBoxDescription.Text = String.Format("EzYuzu {0}" +
@@ -23,11 +21,12 @@ namespace EzYuzu
                 "Credits: https://github.com/amakvana/EzYuzu#acknowledgements {0}{0}" +
                 "Disclaimer: {0}" +
                 "This software comes with no warranty, express or implied nor does the author makes no representation of warranties. The author claims no responsibility for damages resulting from any use or misuse of the software.", Environment.NewLine);
+
         }
 
         #region Assembly Attribute Accessors
 
-        public string AssemblyTitle
+        public static string AssemblyTitle
         {
             get
             {
@@ -40,19 +39,14 @@ namespace EzYuzu
                         return titleAttribute.Title;
                     }
                 }
-                return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+                //return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
+                return Path.GetFileNameWithoutExtension(System.AppContext.BaseDirectory);
             }
         }
 
-        public string AssemblyVersion
-        {
-            get
-            {
-                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            }
-        }
+        public static string AssemblyVersion => Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 
-        public string AssemblyDescription
+        public static string AssemblyDescription
         {
             get
             {
@@ -65,7 +59,7 @@ namespace EzYuzu
             }
         }
 
-        public string AssemblyProduct
+        public static string AssemblyProduct
         {
             get
             {
@@ -78,7 +72,7 @@ namespace EzYuzu
             }
         }
 
-        public string AssemblyCopyright
+        public static string AssemblyCopyright
         {
             get
             {
@@ -91,7 +85,7 @@ namespace EzYuzu
             }
         }
 
-        public string AssemblyCompany
+        public static string AssemblyCompany
         {
             get
             {
@@ -104,10 +98,5 @@ namespace EzYuzu
             }
         }
         #endregion
-
-        private void OkButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
     }
 }

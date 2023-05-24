@@ -1,91 +1,82 @@
-﻿using Ookii.Dialogs.WinForms;
-using System;
+using EzYuzu.Classes.Updaters;
+using EzYuzu.Classes.Yuzu.Detectors;
+using EzYuzu.Classes.Yuzu.Managers;
+using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Security.Principal;
+using static EzYuzu.Classes.Yuzu.Detectors.YuzuBranchDetector;
+using static EzYuzu.Classes.Yuzu.Detectors.YuzuInstallationStateDetector;
 
 namespace EzYuzu
 {
     public partial class FrmMain : Form
     {
+        private readonly IHttpClientFactory? clientFactory;
+        private readonly YuzuBranchDetector? branchDetector;
+        private bool formHasLoaded;
+
         public FrmMain()
         {
             InitializeComponent();
+            SetUiDefaults();
         }
 
-        private async void FrmMain_Load(object sender, EventArgs e)
+        public FrmMain(IServiceProvider serviceProvider) : this()
         {
-            // check if software is latest version 
-            CheckAppVersion();
+            clientFactory = serviceProvider.GetService<IHttpClientFactory>();
+            branchDetector = new YuzuBranchDetector(clientFactory!);
+            formHasLoaded = false;
+        }
 
-            // set UI defaults 
-            btnProcess.Enabled = false;
-            lblProgress.Text = "";
-            toolTip1.SetToolTip(lblYuzuLocation, "Click and browse to your Yuzu.exe Folder Location");
-            toolTip1.SetToolTip(txtYuzuLocation, toolTip1.GetToolTip(lblYuzuLocation));
-            toolTip1.SetToolTip(btnBrowse, toolTip1.GetToolTip(lblYuzuLocation));
-            toolTip1.SetToolTip(pbarCurrentProgress, "Progress completed of current action");
-            toolTip1.SetToolTip(cboUpdateChannel, "The current Update Channel of Yuzu. Auto-detected when the Yuzu Path is selected. \n" +
-                                                  "Can be manually overridden by going into Options > General > Update Channel > Override Update Channel. \n\n" +
-                                                  "Mainline - Contains all regular daily Yuzu updates. More stable. \n" +
-                                                  "Early Access - Contains the latest experimental features and fixes, before they are merged into Mainline builds. Less stable. \n\n" +
-                                                  "When no channel is detected, EzYuzu defaults to Mainline.");
-            toolTip1.SetToolTip(lblUpdateChannel, toolTip1.GetToolTip(cboUpdateChannel));
+        private async void FrmMain_LoadAsync(object sender, EventArgs e)
+        {
+            // check if software is latest 
+            await CheckAppVersionAsync();
 
-            // if directory saved does not exist, clear it
-            txtYuzuLocation.Text = Properties.Settings.Default?.YuzuLocation;
-            if (!Directory.Exists(txtYuzuLocation.Text))
-            {
-                txtYuzuLocation.Clear();
-                Properties.Settings.Default.YuzuLocation = "";
-                Properties.Settings.Default.Save();
-            }
-
-            // check path and refresh yuzu installation state 
+            // check last set path and refresh update channel and versions
             if (!string.IsNullOrWhiteSpace(txtYuzuLocation.Text))
             {
-                await RefreshYuzuInstallationStateAsync();
+                var branch = await RefreshDetectedYuzuInstallationUpdateBranchAsync();
+                await RefreshDetectedYuzuInstallationUpdateVersionsAsync(branch);
+                await RefreshDetectedYuzuInstallationStateAsync(branch);
             }
+
+            formHasLoaded = true;
         }
 
         private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            // save selected yuzu location 
-            Properties.Settings.Default.YuzuLocation = txtYuzuLocation.Text;
-            Properties.Settings.Default.Save();
+            SaveApplicationSettings();
         }
 
-        private async void BtnBrowse_ClickAsync(object sender, EventArgs e)
+        private async void CboUpdateChannel_SelectedIndexChangedAsync(object sender, EventArgs e)
         {
-            // browse to Yuzu folder and select it 
-            using var fbd = new VistaFolderBrowserDialog
+            if (!formHasLoaded)
+                return;
+
+            // get branch based on selected index 
+            var branch = cboUpdateChannel.SelectedIndex switch
             {
-                ShowNewFolderButton = true,
-                UseDescriptionForTitle = true,
-                Description = "Browse to the folder containing yuzu.exe"
+                0 => YuzuBranch.Mainline,
+                1 => YuzuBranch.EarlyAccess,
+                _ => YuzuBranch.Mainline
             };
 
-            // if folder has been selected
-            if (fbd.ShowDialog() == DialogResult.OK)
-            {
-                string yuzuLocationPath = fbd.SelectedPath.Trim();
-                txtYuzuLocation.Text = yuzuLocationPath;
-
-                // refresh installation status of Yuzu within selected folder
-                await RefreshYuzuInstallationStateAsync(); 
-            }
+            // pass 
+            await RefreshDetectedYuzuInstallationUpdateVersionsAsync(branch);
+            await RefreshDetectedYuzuInstallationStateAsync(branch);
         }
 
-        private void CboUpdateChannel_SelectedIndexChanged(object sender, EventArgs e)
+        private async void CboUpdateVersion_SelectedIndexChangedAsync(object sender, EventArgs e)
         {
-            // force refresh of Yuzu if the channel has been manually changed 
-            if (overrideUpdateChannelToolStripMenuItem.Checked && cboUpdateChannel.Enabled)
+            if (cboUpdateVersion.Enabled)
             {
-                btnProcess.Enabled = true;
-                btnProcess.Text = "Update Yuzu";
-                lblUpdateChannel.Text = "Update Channel:";
-                toolTip1.SetToolTip(btnProcess, "Click to download the latest version of Yuzu");
+                var branch = cboUpdateChannel.SelectedIndex switch
+                {
+                    1 => YuzuBranch.EarlyAccess,
+                    _ => YuzuBranch.Mainline  // mainline by default 
+                };
+                await RefreshDetectedYuzuInstallationStateAsync(branch);
             }
         }
 
@@ -101,6 +92,16 @@ namespace EzYuzu
             BtnBrowse_ClickAsync(sender, e);
         }
 
+        private async void BtnBrowse_ClickAsync(object sender, EventArgs e)
+        {
+            txtYuzuLocation.Text = await ShowFolderBrowserDialogWindowAndGetResultAsync();
+
+            // refresh yuzu installation data 
+            var branch = await RefreshDetectedYuzuInstallationUpdateBranchAsync();
+            await RefreshDetectedYuzuInstallationUpdateVersionsAsync(branch);
+            await RefreshDetectedYuzuInstallationStateAsync(branch);
+        }
+
         private async void BtnProcess_ClickAsync(object sender, EventArgs e)
         {
             // no path selected? computer says no
@@ -110,78 +111,65 @@ namespace EzYuzu
                 return;
             }
 
-            // Disable UI controls 
-            ToggleControls(false);
+            // path has been selected, begin processing
+
+            // disable UI controls 
+            ToggleUiControls(false);
             btnProcess.Enabled = false;
 
-            // detect current branch. Mainline = default
+            // prepare YuzuManager to download latest copy of yuzu based on selected/detected branch 
             string yuzuLocation = txtYuzuLocation.Text;
-            var branchDetector = new YuzuBranchDetector(yuzuLocation);
-            var detectedBranch = branchDetector.GetCurrentlyInstalledBranch();
+            string yuzuTagName = cboUpdateVersion.Text;
+            var yuzuDownloadUrl = cboUpdateVersion.SelectedValue?.ToString();
 
-            // check if user has overriden update channel
-            if (overrideUpdateChannelToolStripMenuItem.Checked)
+            YuzuManager yuzuManager = cboUpdateChannel.SelectedIndex switch
             {
-                cboUpdateChannel.Enabled = false;
-                detectedBranch = branchDetector.GetCurrentlyInstalledBranch(cboUpdateChannel.SelectedIndex);
-            }
-            
-            YuzuManager yuzuManager = detectedBranch switch
-            {
-                YuzuBranchDetector.Branch.EarlyAccess => new EarlyAccessYuzuManager(),
-                _ => new MainlineYuzuManager(),     // default 
+                1 => new EarlyAccessYuzuManager(clientFactory!, yuzuTagName, yuzuDownloadUrl!),
+                _ => new MainlineYuzuManager(clientFactory!, yuzuTagName, yuzuDownloadUrl!)
             };
 
-            // prepare YuzuManager and download all prerequisites
             yuzuManager.YuzuDirectoryPath = yuzuLocation;
             yuzuManager.TempUpdateDirectoryPath = Path.Combine(yuzuLocation, "TempUpdate");
+            yuzuManager.UpdateVisualCppRedistributables = reinstallVisualCToolStripMenuItem.Checked;
             yuzuManager.UpdateProgress += EzYuzuDownloader_UpdateCurrentProgress;
             await yuzuManager.DownloadPrerequisitesAsync();
 
             // Process yuzu depending on directory selected and type of YuzuManager
-            if (yuzuManager is EarlyAccessYuzuManager eaym)
+            switch (yuzuManager)
             {
-                switch (btnProcess.Text)
-                {
-                    case "New Install":
-                        await eaym.ProcessYuzuNewInstallationAsync();
-                        break;
+                case EarlyAccessYuzuManager eaym when btnProcess.Text == "New Install":
+                    await eaym.ProcessYuzuNewInstallationAsync();
+                    break;
 
-                    case "Update Yuzu":
-                        if (reinstallVisualCToolStripMenuItem.Checked)
-                        {
-                            await eaym.DownloadInstallVisualCppRedistAsync();
-                        }
-                        await eaym.ProcessYuzuUpdateAsync();
-                        break;
-                }
-            }
-            else if (yuzuManager is MainlineYuzuManager mym)
-            {
-                switch (btnProcess.Text)
-                {
-                    case "New Install":
-                        await mym.ProcessYuzuNewInstallationAsync();
-                        break;
+                case EarlyAccessYuzuManager eaym when btnProcess.Text.StartsWith("Update", StringComparison.Ordinal):
+                    await eaym.ProcessYuzuUpdateAsync();
+                    break;
 
-                    case "Update Yuzu":
-                        if (reinstallVisualCToolStripMenuItem.Checked)
-                        {
-                            await mym.DownloadInstallVisualCppRedistAsync();
-                        }
-                        await mym.ProcessYuzuUpdateAsync();
-                        break;
-                }
+                case MainlineYuzuManager mym when btnProcess.Text == "New Install":
+                    await mym.ProcessYuzuNewInstallationAsync();
+                    break;
+
+                case MainlineYuzuManager mym when btnProcess.Text.StartsWith("Update", StringComparison.Ordinal):
+                    await mym.ProcessYuzuUpdateAsync();
+                    break;
             }
 
-            // Refresh directory installation status 
-            await RefreshYuzuInstallationStateAsync();
+            // refresh directory installation status 
+            var branch = await RefreshDetectedYuzuInstallationUpdateBranchAsync();
+            await RefreshDetectedYuzuInstallationUpdateVersionsAsync(branch);
+            await RefreshDetectedYuzuInstallationStateAsync(branch);
 
-            // Enable UI controls 
-            ToggleControls(true);
-            if (overrideUpdateChannelToolStripMenuItem.Checked)
+            // Enable UI controls
+            lblProgress.Text = "Done!";
+            ToggleUiControls(true);
+
+            // launch Yuzu if option is selected 
+            if (launchYuzuAfterUpdateToolStripMenuItem.Checked)
             {
-                cboUpdateChannel.Enabled = true;
+                Process.Start(new ProcessStartInfo(Path.Combine(yuzuLocation, "yuzu.exe"))
+                {
+                    UseShellExecute = true
+                })?.Dispose();
             }
         }
 
@@ -193,100 +181,192 @@ namespace EzYuzu
             lblProgress.Refresh();
         }
 
-        // MENUSTRIP CONTROLS
+        //// ====================================================
+        ////  MENUSTRIP CONTROLS 
+        //// ====================================================
+
         private void YuzuWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("https://yuzu-emu.org/");
+            Process.Start(new ProcessStartInfo("https://yuzu-emu.org/")
+            {
+                UseShellExecute = true,
+                Verb = "Open"
+            })?.Dispose();
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveApplicationSettings();
             Application.Exit();
         }
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using var f = new FrmAbout();
-            f.ShowDialog();
-        }
-
-        private void CheckForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CheckAppVersion(true);
+            f.ShowDialog(this);
         }
 
         private async void OverrideUpdateChannelToolStripMenuItem_ClickAsync(object sender, EventArgs e)
         {
-            // no path selected? computer says no
-            if (string.IsNullOrWhiteSpace(txtYuzuLocation.Text))
-            {
-                MessageBox.Show("Please browse and select your Yuzu.exe folder location first", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // otherwise, update UI
             cboUpdateChannel.Enabled = overrideUpdateChannelToolStripMenuItem.Checked;
+            UpdateOptionsUi();
+
             if (!overrideUpdateChannelToolStripMenuItem.Checked)
-                await RefreshYuzuInstallationStateAsync();
+            {
+                var branch = await RefreshDetectedYuzuInstallationUpdateBranchAsync();
+                await RefreshDetectedYuzuInstallationUpdateVersionsAsync(branch);
+                await RefreshDetectedYuzuInstallationStateAsync(branch);
+            }
         }
 
-        // METHODS 
-        private void ToggleControls(bool value)
+        private async void OverrideUpdateVersionToolStripMenuItem_ClickAsync(object sender, EventArgs e)
         {
+            cboUpdateVersion.Enabled = overrideUpdateVersionToolStripMenuItem.Checked;
+            UpdateOptionsUi();
+
+            if (!overrideUpdateVersionToolStripMenuItem.Checked)
+            {
+                var branch = await RefreshDetectedYuzuInstallationUpdateBranchAsync();
+                await RefreshDetectedYuzuInstallationUpdateVersionsAsync(branch);
+                await RefreshDetectedYuzuInstallationStateAsync(branch);
+            }
+        }
+
+        //// ====================================================
+        ////  METHODS 
+        //// ====================================================
+
+        private void SetUiDefaults()
+        {
+            toolTip1.SetToolTip(cboUpdateChannel, "The current Update Channel of Yuzu. Auto-detected when the Yuzu Path is selected. \n" +
+                                                  "Can be manually overridden by going into Options > General > Update Channel > Override Update Channel. \n\n" +
+                                                  "Mainline - Contains all regular daily Yuzu updates. More stable. \n" +
+                                                  "Early Access - Contains the latest experimental features and fixes, before they are merged into Mainline builds. Less stable. \n\n" +
+                                                  "When no channel is detected, EzYuzu defaults to Mainline.");
+            toolTip1.SetToolTip(lblUpdateChannel, toolTip1.GetToolTip(cboUpdateChannel));
+            launchYuzuAfterUpdateToolStripMenuItem.Checked = Properties.Settings.Default.LaunchYuzuAfterUpdate;
+            reinstallVisualCToolStripMenuItem.Checked = AppIsRunningAsAdministrator();
+            txtYuzuLocation.Text = Properties.Settings.Default?.YuzuLocation;
+            if (!Directory.Exists(txtYuzuLocation.Text))
+            {
+                txtYuzuLocation.Clear();
+                Properties.Settings.Default!.YuzuLocation = "";
+                Properties.Settings.Default.Save();
+            }
+
+            // hide options groupbox and shrink form 
+            this.Size = new Size(this.Size.Width, 270);     // w=390 default 
+            grpOptions.Height = 0;  // h=120 default 
+        }
+
+        private void ToggleUiControls(bool value)
+        {
+            lblYuzuLocation.Enabled = value;
             txtYuzuLocation.Enabled = value;
             btnBrowse.Enabled = value;
+            grpOptions.Enabled = value;
             optionsToolStripMenuItem.Enabled = value;
         }
 
-        private void CheckAppVersion(bool manualCheck = false)
+        private void UpdateOptionsUi()
         {
-            var currentAppVersion = AppUpdater.CheckVersion();
+            if (overrideUpdateVersionToolStripMenuItem.Checked || overrideUpdateChannelToolStripMenuItem.Checked)
+            {
+                // show options 
+                grpOptions.Height = 120;
+                this.Size = new Size(this.Size.Width, 390);
+                return;
+            }
+
+            // revert ui back to defaults 
+            this.Size = new Size(this.Size.Width, 270);     // w=390 default 
+            grpOptions.Height = 0;  // h=120 default 
+        }
+
+        private void SaveApplicationSettings()
+        {
+            // save selected yuzu location 
+            Properties.Settings.Default.YuzuLocation = txtYuzuLocation.Text;
+            Properties.Settings.Default.LaunchYuzuAfterUpdate = launchYuzuAfterUpdateToolStripMenuItem.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private async Task CheckAppVersionAsync()
+        {
+            var updater = new AppUpdater(clientFactory!);
+            var currentAppVersion = await updater.CheckVersionAsync();
             switch (currentAppVersion)
             {
-                case AppUpdater.CurrentVersion.LatestVersion when manualCheck:
-                    MessageBox.Show("You currently have the latest version of EzYuzu", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    break;
                 case AppUpdater.CurrentVersion.UpdateAvailable:
                     MessageBox.Show("New version of EzYuzu available, please download from https://github.com/amakvana/EzYuzu", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Process.Start("https://github.com/amakvana/EzYuzu");
+                    Process.Start(new ProcessStartInfo("https://github.com/amakvana/EzYuzu")
+                    {
+                        UseShellExecute = true,
+                        Verb = "Open"
+                    })?.Dispose();
                     break;
                 case AppUpdater.CurrentVersion.NotSupported:
                     MessageBox.Show("This version of EzYuzu is no longer supported, please download the latest version from https://github.com/amakvana/EzYuzu", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Process.Start("https://github.com/amakvana/EzYuzu");
+                    Process.Start(new ProcessStartInfo("https://github.com/amakvana/EzYuzu")
+                    {
+                        UseShellExecute = true,
+                        Verb = "Open"
+                    })?.Dispose();
                     Application.Exit();
                     break;
             }
         }
 
-        private async Task RefreshYuzuInstallationStateAsync()
+        private async Task<YuzuBranch> RefreshDetectedYuzuInstallationUpdateBranchAsync()
         {
-            string yuzuLocation = txtYuzuLocation.Text;
+            branchDetector!.YuzuDirectoryPath = txtYuzuLocation.Text;
+            var detectedYuzuBranch = await branchDetector.GetCurrentlyInstalledBranchAsync();
 
-            // get current branch of Yuzu and set the current channel dropdown 
-            var branchDetector = new YuzuBranchDetector(yuzuLocation);
-            var currentYuzuBranch = branchDetector.GetCurrentlyInstalledBranch();
+            // refresh "Update Channel" dropdown
             lblUpdateChannel.Text = "Update Channel (Auto-Detected):";
+            cboUpdateChannel.SelectedIndex = detectedYuzuBranch switch
+            {
+                YuzuBranch.Mainline => 0,
+                YuzuBranch.EarlyAccess => 1,
+                _ => 0  // mainline by default 
+            };
 
-            // get installation state of detected Yuzu install 
-            var stateDetector = new YuzuInstallationStateDetector(yuzuLocation, currentYuzuBranch);
-            var installationState = await stateDetector.GetYuzuInstallationStateAsync();
+            return detectedYuzuBranch;
+        }
 
-            // alter UI based on installation state 
+        private async Task RefreshDetectedYuzuInstallationUpdateVersionsAsync(YuzuBranch detectedYuzuBranch)
+        {
+            // refresh "Update Version" dropdown 
+            cboUpdateVersion.DataSource = await branchDetector!.GetDetectedBranchAvailableUpdateVersionsAsync(detectedYuzuBranch);
+            cboUpdateVersion.DisplayMember = "Key";
+            cboUpdateVersion.ValueMember = "Value";
+        }
+
+        private async Task RefreshDetectedYuzuInstallationStateAsync(YuzuBranch detectedYuzuBranch)
+        {
+            string yuzuDirectoryPath = txtYuzuLocation.Text;
+
+            // get latest version from dropdown and extract just number from tag 
+            int latestVersionAvailableFromBranch = int.Parse(cboUpdateVersion.Text[(cboUpdateVersion.Text.LastIndexOf("-") + 1)..]);
+
+            // detect whether current install is up-to-date
+            var stateDetector = new YuzuInstallationStateDetector(yuzuDirectoryPath, detectedYuzuBranch);
+            var installationState = await stateDetector.GetYuzuInstallationStateAsync(latestVersionAvailableFromBranch);
+
+            // update ui based on installation state 
             switch (installationState)
             {
-                case YuzuInstallationStateDetector.YuzuInstallationState.LatestVersionInstalled:
+                case YuzuInstallationState.LatestVersionInstalled:
                     btnProcess.Text = "Yuzu is currently Up-To-Date!";
                     toolTip1.SetToolTip(btnProcess, "The latest version of Yuzu is currently installed");
                     btnProcess.Enabled = false;
-                    cboUpdateChannel.SelectedIndex = (int)currentYuzuBranch;
                     break;
-                case YuzuInstallationStateDetector.YuzuInstallationState.UpdateAvailable:
-                    btnProcess.Text = "Update Yuzu";
+                case YuzuInstallationState.UpdateAvailable:
+                    btnProcess.Text = $"Update to Yuzu {latestVersionAvailableFromBranch}";
                     toolTip1.SetToolTip(btnProcess, "Click to download the latest version of Yuzu");
                     btnProcess.Enabled = true;
-                    cboUpdateChannel.SelectedIndex = (int)currentYuzuBranch;
                     break;
-                case YuzuInstallationStateDetector.YuzuInstallationState.NoInstallDetected:
+                case YuzuInstallationState.NoInstallDetected:
                 default:
                     btnProcess.Text = "New Install";
                     toolTip1.SetToolTip(btnProcess, "Yuzu not detected, click to download a fresh copy of Yuzu");
@@ -294,9 +374,45 @@ namespace EzYuzu
 
                     // default options
                     lblUpdateChannel.Text = "Update Channel:";
-                    cboUpdateChannel.SelectedIndex = 0;     // mainline 
                     break;
             }
+        }
+
+        private static bool AppIsRunningAsAdministrator()
+        {
+            try
+            {
+                using WindowsIdentity identity = WindowsIdentity.GetCurrent();
+                return new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static async Task<string> ShowFolderBrowserDialogWindowAndGetResultAsync()
+        {
+            var folder = new TaskCompletionSource<string>();
+            using var fbd = new FolderBrowserDialog()
+            {
+                ShowNewFolderButton = true,
+                UseDescriptionForTitle = true,
+                Description = "Browse to the folder containing yuzu.exe"
+            };
+
+            Thread t = new(() =>
+            {
+                // if folder has been selected
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    folder.SetResult(fbd.SelectedPath.Trim());
+                }
+            });
+
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+            return await folder.Task;
         }
     }
 }

@@ -3,12 +3,12 @@
     partial class FrmMain
     {
         /// <summary>
-        /// Required designer variable.
+        ///  Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Clean up any resources being used.
+        ///  Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
@@ -23,259 +23,318 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
-            this.lblYuzuLocation = new System.Windows.Forms.Label();
-            this.txtYuzuLocation = new System.Windows.Forms.TextBox();
-            this.btnBrowse = new System.Windows.Forms.Button();
-            this.pbarCurrentProgress = new System.Windows.Forms.ProgressBar();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.updateYuzuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reinstallVisualCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.channelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.overrideUpdateChannelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.yuzuWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnProcess = new System.Windows.Forms.Button();
-            this.lblProgress = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.lblUpdateChannel = new System.Windows.Forms.Label();
-            this.cboUpdateChannel = new System.Windows.Forms.ComboBox();
-            this.menuStrip1.SuspendLayout();
-            this.SuspendLayout();
+            lblYuzuLocation = new Label();
+            txtYuzuLocation = new TextBox();
+            btnBrowse = new Button();
+            pbarCurrentProgress = new ProgressBar();
+            menuStrip1 = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            exitToolStripMenuItem = new ToolStripMenuItem();
+            optionsToolStripMenuItem = new ToolStripMenuItem();
+            generalToolStripMenuItem = new ToolStripMenuItem();
+            updateYuzuToolStripMenuItem = new ToolStripMenuItem();
+            launchYuzuAfterUpdateToolStripMenuItem = new ToolStripMenuItem();
+            reinstallVisualCToolStripMenuItem = new ToolStripMenuItem();
+            advancedToolStripMenuItem = new ToolStripMenuItem();
+            overrideUpdateChannelToolStripMenuItem = new ToolStripMenuItem();
+            overrideUpdateVersionToolStripMenuItem = new ToolStripMenuItem();
+            helpToolStripMenuItem = new ToolStripMenuItem();
+            yuzuWebsiteToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
+            aboutToolStripMenuItem = new ToolStripMenuItem();
+            btnProcess = new Button();
+            lblProgress = new Label();
+            toolTip1 = new ToolTip(components);
+            lblUpdateChannel = new Label();
+            cboUpdateChannel = new ComboBox();
+            lblUpdateVersion = new Label();
+            cboUpdateVersion = new ComboBox();
+            grpOptions = new GroupBox();
+            menuStrip1.SuspendLayout();
+            grpOptions.SuspendLayout();
+            SuspendLayout();
             // 
             // lblYuzuLocation
             // 
-            this.lblYuzuLocation.AutoSize = true;
-            this.lblYuzuLocation.Location = new System.Drawing.Point(12, 32);
-            this.lblYuzuLocation.Name = "lblYuzuLocation";
-            this.lblYuzuLocation.Size = new System.Drawing.Size(180, 13);
-            this.lblYuzuLocation.TabIndex = 0;
-            this.lblYuzuLocation.Text = "Browse to Yuzu.exe Folder Location:";
-            this.lblYuzuLocation.Click += new System.EventHandler(this.LblYuzuLocation_Click);
+            lblYuzuLocation.AutoSize = true;
+            lblYuzuLocation.Location = new Point(13, 37);
+            lblYuzuLocation.Margin = new Padding(4, 0, 4, 0);
+            lblYuzuLocation.Name = "lblYuzuLocation";
+            lblYuzuLocation.Size = new Size(196, 15);
+            lblYuzuLocation.TabIndex = 0;
+            lblYuzuLocation.Text = "Browse to Yuzu.exe Folder Location:";
+            toolTip1.SetToolTip(lblYuzuLocation, "Click and browse to your Yuzu.exe Folder Location");
+            lblYuzuLocation.Click += LblYuzuLocation_Click;
             // 
             // txtYuzuLocation
             // 
-            this.txtYuzuLocation.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.txtYuzuLocation.Location = new System.Drawing.Point(12, 48);
-            this.txtYuzuLocation.Name = "txtYuzuLocation";
-            this.txtYuzuLocation.ReadOnly = true;
-            this.txtYuzuLocation.Size = new System.Drawing.Size(312, 20);
-            this.txtYuzuLocation.TabIndex = 1;
-            this.txtYuzuLocation.Click += new System.EventHandler(this.TxtYuzuLocation_Click);
+            txtYuzuLocation.Location = new Point(14, 55);
+            txtYuzuLocation.Margin = new Padding(4, 3, 4, 3);
+            txtYuzuLocation.Name = "txtYuzuLocation";
+            txtYuzuLocation.ReadOnly = true;
+            txtYuzuLocation.Size = new Size(363, 23);
+            txtYuzuLocation.TabIndex = 1;
+            toolTip1.SetToolTip(txtYuzuLocation, "Click and browse to your Yuzu.exe Folder Location");
+            txtYuzuLocation.Click += TxtYuzuLocation_Click;
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(330, 46);
-            this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(24, 23);
-            this.btnBrowse.TabIndex = 2;
-            this.btnBrowse.Text = "...";
-            this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Click += new System.EventHandler(this.BtnBrowse_ClickAsync);
+            btnBrowse.Location = new Point(385, 53);
+            btnBrowse.Margin = new Padding(4, 3, 4, 3);
+            btnBrowse.Name = "btnBrowse";
+            btnBrowse.Size = new Size(28, 27);
+            btnBrowse.TabIndex = 2;
+            btnBrowse.Text = "...";
+            toolTip1.SetToolTip(btnBrowse, "Click and browse to your Yuzu.exe Folder Location");
+            btnBrowse.UseVisualStyleBackColor = true;
+            btnBrowse.Click += BtnBrowse_ClickAsync;
             // 
             // pbarCurrentProgress
             // 
-            this.pbarCurrentProgress.Location = new System.Drawing.Point(12, 149);
-            this.pbarCurrentProgress.Name = "pbarCurrentProgress";
-            this.pbarCurrentProgress.Size = new System.Drawing.Size(342, 23);
-            this.pbarCurrentProgress.TabIndex = 3;
+            pbarCurrentProgress.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            pbarCurrentProgress.Location = new Point(14, 231);
+            pbarCurrentProgress.Margin = new Padding(4, 3, 4, 3);
+            pbarCurrentProgress.Name = "pbarCurrentProgress";
+            pbarCurrentProgress.Size = new Size(399, 27);
+            pbarCurrentProgress.TabIndex = 3;
+            toolTip1.SetToolTip(pbarCurrentProgress, "Progress completed of current action");
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.optionsToolStripMenuItem,
-            this.helpToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(366, 24);
-            this.menuStrip1.TabIndex = 4;
-            this.menuStrip1.Text = "menuStrip1";
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, optionsToolStripMenuItem, helpToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Padding = new Padding(7, 2, 0, 2);
+            menuStrip1.Size = new Size(427, 24);
+            menuStrip1.TabIndex = 4;
+            menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exitToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Text = "File";
             // 
             // exitToolStripMenuItem
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            exitToolStripMenuItem.Size = new Size(92, 22);
+            exitToolStripMenuItem.Text = "Exit";
+            exitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
             // optionsToolStripMenuItem
             // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generalToolStripMenuItem});
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.optionsToolStripMenuItem.Text = "Options";
+            optionsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { generalToolStripMenuItem, advancedToolStripMenuItem });
+            optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            optionsToolStripMenuItem.Size = new Size(61, 20);
+            optionsToolStripMenuItem.Text = "Options";
             // 
             // generalToolStripMenuItem
             // 
-            this.generalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.updateYuzuToolStripMenuItem,
-            this.channelToolStripMenuItem});
-            this.generalToolStripMenuItem.Name = "generalToolStripMenuItem";
-            this.generalToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.generalToolStripMenuItem.Text = "General";
+            generalToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { updateYuzuToolStripMenuItem });
+            generalToolStripMenuItem.Name = "generalToolStripMenuItem";
+            generalToolStripMenuItem.Size = new Size(127, 22);
+            generalToolStripMenuItem.Text = "General";
             // 
             // updateYuzuToolStripMenuItem
             // 
-            this.updateYuzuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reinstallVisualCToolStripMenuItem});
-            this.updateYuzuToolStripMenuItem.Name = "updateYuzuToolStripMenuItem";
-            this.updateYuzuToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.updateYuzuToolStripMenuItem.Text = "Update Yuzu";
+            updateYuzuToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { launchYuzuAfterUpdateToolStripMenuItem, reinstallVisualCToolStripMenuItem });
+            updateYuzuToolStripMenuItem.Name = "updateYuzuToolStripMenuItem";
+            updateYuzuToolStripMenuItem.Size = new Size(141, 22);
+            updateYuzuToolStripMenuItem.Text = "Update Yuzu";
+            // 
+            // launchYuzuAfterUpdateToolStripMenuItem
+            // 
+            launchYuzuAfterUpdateToolStripMenuItem.CheckOnClick = true;
+            launchYuzuAfterUpdateToolStripMenuItem.Name = "launchYuzuAfterUpdateToolStripMenuItem";
+            launchYuzuAfterUpdateToolStripMenuItem.Size = new Size(209, 22);
+            launchYuzuAfterUpdateToolStripMenuItem.Text = "Launch Yuzu after update";
+            launchYuzuAfterUpdateToolStripMenuItem.ToolTipText = "Launch Yuzu after Update or New Install is complete";
             // 
             // reinstallVisualCToolStripMenuItem
             // 
-            this.reinstallVisualCToolStripMenuItem.CheckOnClick = true;
-            this.reinstallVisualCToolStripMenuItem.Name = "reinstallVisualCToolStripMenuItem";
-            this.reinstallVisualCToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.reinstallVisualCToolStripMenuItem.Text = "Reinstall Visual C++";
+            reinstallVisualCToolStripMenuItem.CheckOnClick = true;
+            reinstallVisualCToolStripMenuItem.Enabled = false;
+            reinstallVisualCToolStripMenuItem.Name = "reinstallVisualCToolStripMenuItem";
+            reinstallVisualCToolStripMenuItem.Size = new Size(209, 22);
+            reinstallVisualCToolStripMenuItem.Text = "Reinstall Visual C++";
+            reinstallVisualCToolStripMenuItem.ToolTipText = "Automatically reinstall Visual C++ Redistrbutables when EzYuzu is run as Administrator";
             // 
-            // channelToolStripMenuItem
+            // advancedToolStripMenuItem
             // 
-            this.channelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.overrideUpdateChannelToolStripMenuItem});
-            this.channelToolStripMenuItem.Name = "channelToolStripMenuItem";
-            this.channelToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.channelToolStripMenuItem.Text = "Update Channel";
+            advancedToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { overrideUpdateChannelToolStripMenuItem, overrideUpdateVersionToolStripMenuItem });
+            advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
+            advancedToolStripMenuItem.Size = new Size(127, 22);
+            advancedToolStripMenuItem.Text = "Advanced";
             // 
             // overrideUpdateChannelToolStripMenuItem
             // 
-            this.overrideUpdateChannelToolStripMenuItem.CheckOnClick = true;
-            this.overrideUpdateChannelToolStripMenuItem.Name = "overrideUpdateChannelToolStripMenuItem";
-            this.overrideUpdateChannelToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.overrideUpdateChannelToolStripMenuItem.Text = "Override Update Channel";
-            this.overrideUpdateChannelToolStripMenuItem.Click += new System.EventHandler(this.OverrideUpdateChannelToolStripMenuItem_ClickAsync);
+            overrideUpdateChannelToolStripMenuItem.CheckOnClick = true;
+            overrideUpdateChannelToolStripMenuItem.Name = "overrideUpdateChannelToolStripMenuItem";
+            overrideUpdateChannelToolStripMenuItem.Size = new Size(207, 22);
+            overrideUpdateChannelToolStripMenuItem.Text = "Override Update Channel";
+            overrideUpdateChannelToolStripMenuItem.ToolTipText = "Toggle to allow changing between Mainline and Early Access update channels";
+            overrideUpdateChannelToolStripMenuItem.Click += OverrideUpdateChannelToolStripMenuItem_ClickAsync;
+            // 
+            // overrideUpdateVersionToolStripMenuItem
+            // 
+            overrideUpdateVersionToolStripMenuItem.CheckOnClick = true;
+            overrideUpdateVersionToolStripMenuItem.Name = "overrideUpdateVersionToolStripMenuItem";
+            overrideUpdateVersionToolStripMenuItem.Size = new Size(207, 22);
+            overrideUpdateVersionToolStripMenuItem.Text = "Override Update Version";
+            overrideUpdateVersionToolStripMenuItem.ToolTipText = "Toggle to select specific versions of a build. Useful when rolling back to previous versions";
+            overrideUpdateVersionToolStripMenuItem.Click += OverrideUpdateVersionToolStripMenuItem_ClickAsync;
             // 
             // helpToolStripMenuItem
             // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.yuzuWebsiteToolStripMenuItem,
-            this.checkForUpdatesToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.aboutToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
+            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { yuzuWebsiteToolStripMenuItem, toolStripSeparator1, aboutToolStripMenuItem });
+            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            helpToolStripMenuItem.Size = new Size(44, 20);
+            helpToolStripMenuItem.Text = "Help";
             // 
             // yuzuWebsiteToolStripMenuItem
             // 
-            this.yuzuWebsiteToolStripMenuItem.Name = "yuzuWebsiteToolStripMenuItem";
-            this.yuzuWebsiteToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.yuzuWebsiteToolStripMenuItem.Text = "Yuzu Website";
-            this.yuzuWebsiteToolStripMenuItem.Click += new System.EventHandler(this.YuzuWebsiteToolStripMenuItem_Click);
-            // 
-            // checkForUpdatesToolStripMenuItem
-            // 
-            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
-            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.CheckForUpdatesToolStripMenuItem_Click);
+            yuzuWebsiteToolStripMenuItem.Name = "yuzuWebsiteToolStripMenuItem";
+            yuzuWebsiteToolStripMenuItem.Size = new Size(145, 22);
+            yuzuWebsiteToolStripMenuItem.Text = "Yuzu Website";
+            yuzuWebsiteToolStripMenuItem.Click += YuzuWebsiteToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(168, 6);
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(142, 6);
             // 
             // aboutToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
+            aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            aboutToolStripMenuItem.Size = new Size(145, 22);
+            aboutToolStripMenuItem.Text = "About";
+            aboutToolStripMenuItem.Click += AboutToolStripMenuItem_Click;
             // 
             // btnProcess
             // 
-            this.btnProcess.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProcess.Location = new System.Drawing.Point(12, 178);
-            this.btnProcess.Name = "btnProcess";
-            this.btnProcess.Size = new System.Drawing.Size(342, 63);
-            this.btnProcess.TabIndex = 7;
-            this.btnProcess.Text = "Select the Directory containing Yuzu.exe";
-            this.btnProcess.UseVisualStyleBackColor = true;
-            this.btnProcess.Click += new System.EventHandler(this.BtnProcess_ClickAsync);
+            btnProcess.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnProcess.Enabled = false;
+            btnProcess.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            btnProcess.Location = new Point(14, 264);
+            btnProcess.Margin = new Padding(4, 3, 4, 3);
+            btnProcess.Name = "btnProcess";
+            btnProcess.Size = new Size(399, 73);
+            btnProcess.TabIndex = 7;
+            btnProcess.Text = "Select the Directory containing Yuzu.exe";
+            toolTip1.SetToolTip(btnProcess, "Click to download the latest version of Yuzu");
+            btnProcess.UseVisualStyleBackColor = true;
+            btnProcess.Click += BtnProcess_ClickAsync;
             // 
             // lblProgress
             // 
-            this.lblProgress.AutoSize = true;
-            this.lblProgress.Location = new System.Drawing.Point(12, 133);
-            this.lblProgress.Name = "lblProgress";
-            this.lblProgress.Size = new System.Drawing.Size(35, 13);
-            this.lblProgress.TabIndex = 9;
-            this.lblProgress.Text = "label2";
+            lblProgress.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblProgress.AutoSize = true;
+            lblProgress.Location = new Point(13, 213);
+            lblProgress.Margin = new Padding(4, 0, 4, 0);
+            lblProgress.Name = "lblProgress";
+            lblProgress.Size = new Size(0, 15);
+            lblProgress.TabIndex = 9;
             // 
             // lblUpdateChannel
             // 
-            this.lblUpdateChannel.AutoSize = true;
-            this.lblUpdateChannel.Location = new System.Drawing.Point(12, 81);
-            this.lblUpdateChannel.Name = "lblUpdateChannel";
-            this.lblUpdateChannel.Size = new System.Drawing.Size(87, 13);
-            this.lblUpdateChannel.TabIndex = 10;
-            this.lblUpdateChannel.Text = "Update Channel:";
+            lblUpdateChannel.AutoSize = true;
+            lblUpdateChannel.Location = new Point(7, 19);
+            lblUpdateChannel.Margin = new Padding(4, 0, 4, 0);
+            lblUpdateChannel.Name = "lblUpdateChannel";
+            lblUpdateChannel.Size = new Size(95, 15);
+            lblUpdateChannel.TabIndex = 12;
+            lblUpdateChannel.Text = "Update Channel:";
+            toolTip1.SetToolTip(lblUpdateChannel, "The current Update Channel of Yuzu. Auto-detected when the Yuzu Path is selected. \\n\" +");
             // 
             // cboUpdateChannel
             // 
-            this.cboUpdateChannel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboUpdateChannel.Enabled = false;
-            this.cboUpdateChannel.FormattingEnabled = true;
-            this.cboUpdateChannel.Items.AddRange(new object[] {
-            "Mainline",
-            "Early Access"});
-            this.cboUpdateChannel.Location = new System.Drawing.Point(12, 97);
-            this.cboUpdateChannel.Name = "cboUpdateChannel";
-            this.cboUpdateChannel.Size = new System.Drawing.Size(342, 21);
-            this.cboUpdateChannel.TabIndex = 11;
-            this.cboUpdateChannel.SelectedIndexChanged += new System.EventHandler(this.CboUpdateChannel_SelectedIndexChanged);
+            cboUpdateChannel.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboUpdateChannel.Enabled = false;
+            cboUpdateChannel.FormattingEnabled = true;
+            cboUpdateChannel.Items.AddRange(new object[] { "Mainline", "Early Access" });
+            cboUpdateChannel.Location = new Point(7, 37);
+            cboUpdateChannel.Margin = new Padding(4, 3, 4, 3);
+            cboUpdateChannel.Name = "cboUpdateChannel";
+            cboUpdateChannel.Size = new Size(389, 23);
+            cboUpdateChannel.TabIndex = 13;
+            toolTip1.SetToolTip(cboUpdateChannel, "The current Update Channel of Yuzu. Auto-detected when the Yuzu Path is selected. \\n\" +");
+            cboUpdateChannel.SelectedIndexChanged += CboUpdateChannel_SelectedIndexChangedAsync;
+            // 
+            // lblUpdateVersion
+            // 
+            lblUpdateVersion.AutoSize = true;
+            lblUpdateVersion.Location = new Point(7, 73);
+            lblUpdateVersion.Name = "lblUpdateVersion";
+            lblUpdateVersion.Size = new Size(89, 15);
+            lblUpdateVersion.TabIndex = 14;
+            lblUpdateVersion.Text = "Update Version:";
+            // 
+            // cboUpdateVersion
+            // 
+            cboUpdateVersion.DropDownHeight = 75;
+            cboUpdateVersion.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboUpdateVersion.Enabled = false;
+            cboUpdateVersion.FormattingEnabled = true;
+            cboUpdateVersion.IntegralHeight = false;
+            cboUpdateVersion.Location = new Point(6, 91);
+            cboUpdateVersion.MaxDropDownItems = 10;
+            cboUpdateVersion.Name = "cboUpdateVersion";
+            cboUpdateVersion.Size = new Size(389, 23);
+            cboUpdateVersion.TabIndex = 15;
+            cboUpdateVersion.SelectedIndexChanged += CboUpdateVersion_SelectedIndexChangedAsync;
+            // 
+            // grpOptions
+            // 
+            grpOptions.Controls.Add(cboUpdateVersion);
+            grpOptions.Controls.Add(lblUpdateVersion);
+            grpOptions.Controls.Add(cboUpdateChannel);
+            grpOptions.Controls.Add(lblUpdateChannel);
+            grpOptions.Location = new Point(12, 86);
+            grpOptions.Name = "grpOptions";
+            grpOptions.Size = new Size(403, 120);
+            grpOptions.TabIndex = 12;
+            grpOptions.TabStop = false;
+            grpOptions.Text = "Options";
             // 
             // FrmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(366, 253);
-            this.Controls.Add(this.cboUpdateChannel);
-            this.Controls.Add(this.lblUpdateChannel);
-            this.Controls.Add(this.lblProgress);
-            this.Controls.Add(this.btnProcess);
-            this.Controls.Add(this.pbarCurrentProgress);
-            this.Controls.Add(this.btnBrowse);
-            this.Controls.Add(this.txtYuzuLocation);
-            this.Controls.Add(this.lblYuzuLocation);
-            this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
-            this.MaximizeBox = false;
-            this.Name = "FrmMain";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "EzYuzu - Yuzu Portable Updater";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMain_FormClosed);
-            this.Load += new System.EventHandler(this.FrmMain_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(427, 351);
+            Controls.Add(grpOptions);
+            Controls.Add(lblProgress);
+            Controls.Add(btnProcess);
+            Controls.Add(pbarCurrentProgress);
+            Controls.Add(btnBrowse);
+            Controls.Add(txtYuzuLocation);
+            Controls.Add(lblYuzuLocation);
+            Controls.Add(menuStrip1);
+            DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MainMenuStrip = menuStrip1;
+            Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            Name = "FrmMain";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "EzYuzu - Yuzu Portable Updater";
+            FormClosed += FrmMain_FormClosed;
+            Load += FrmMain_LoadAsync;
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            grpOptions.ResumeLayout(false);
+            grpOptions.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -294,15 +353,18 @@
         private System.Windows.Forms.Button btnProcess;
         private System.Windows.Forms.Label lblProgress;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateYuzuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reinstallVisualCToolStripMenuItem;
-        private System.Windows.Forms.Label lblUpdateChannel;
-        private System.Windows.Forms.ComboBox cboUpdateChannel;
-        private System.Windows.Forms.ToolStripMenuItem channelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem overrideUpdateChannelToolStripMenuItem;
+        private ToolStripMenuItem launchYuzuAfterUpdateToolStripMenuItem;
+        private ToolStripMenuItem advancedToolStripMenuItem;
+        private ToolStripMenuItem overrideUpdateChannelToolStripMenuItem;
+        private ToolStripMenuItem overrideUpdateVersionToolStripMenuItem;
+        private Label lblUpdateChannel;
+        private ComboBox cboUpdateChannel;
+        private Label lblUpdateVersion;
+        private ComboBox cboUpdateVersion;
+        private GroupBox grpOptions;
     }
 }
-
