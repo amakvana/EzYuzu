@@ -40,6 +40,7 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
 - Automatically checks if your standalone copy of Yuzu is up-to-date.
 - `Dependencies` are automatically installed when EzYuzu is ran as Administrator.
 - `Update Channel` and `Update Version` can be overridden by checking the options within `Options` > `Advanced`
+- Launch Yuzu after update. Go to `Options` > `General` > `Update Yuzu` and check `Launch Yuzu after Update`
 - It shouldn't overwrite configs unless `New Install` is displayed. However, backup beforehand.
 - Temp files are stored within `TempUpdate` and are deleted upon completion.
 - [GUIDE](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md) for detailed instructions, along with [Command Line options](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md#command-line-interface-options).
