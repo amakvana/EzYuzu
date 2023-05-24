@@ -23,6 +23,7 @@
 - Automatically checks if your standalone copy of Yuzu is up-to-date.
 - `Dependencies` are automatically installed when EzYuzu is ran as Administrator.
 - `Update Channel` and `Update Version` can be overridden by checking the options within `Options` > `Advanced`
+- Launch Yuzu after update. Go to `Options` > `General` > `Update Yuzu` and check `Launch Yuzu after Update`
 - It shouldn't overwrite configs unless `New Install` is displayed. However, backup beforehand.
 - Temp files are stored within `TempUpdate` and are deleted upon completion.
 - [GUIDE](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md) for detailed instructions
@@ -43,24 +44,27 @@ To install Yuzu Portable for the first time:
 
 1. Create an empty folder on your device and give it a name.
 2. Select your newly created empty folder.
-3. The button should now change to `New Install`
-4. Click on `New Install`
-5. Done
+3. (Optional) Launch Yuzu after update. Go to `Options` > `General` > `Update Yuzu` and check `Launch Yuzu after Update`
+4. The button should now change to `New Install`
+5. Click on `New Install`
+6. Done
 
 ### Update Yuzu
 
 1. Select your Yuzu root folder (the folder containing `yuzu.exe`)
 2. The button should now change to `Update Yuzu`
-3. Click on `Update Yuzu`
-4. Done
+3. (Optional) Launch Yuzu after update. Go to `Options` > `General` > `Update Yuzu` and check `Launch Yuzu after Update`
+4. Click on `Update Yuzu`
+5. Done
 
 ### Switching Update Channels and Update Versions
 
 1. Select your Yuzu root folder (the folder containing `yuzu.exe`)
 2. Check the options within `Options` > `Advanced`
 3. Select which `Update Channel` and `Update Version` you want to update Yuzu on, via the Dropdown menu.
-4. Click on `Update Yuzu`
-5. Done
+4. (Optional) Launch Yuzu after update. Go to `Options` > `General` > `Update Yuzu` and check `Launch Yuzu after Update`
+5. Click on `Update Yuzu`
+6. Done
 
 ### Checking Yuzu is up-to-date
 
