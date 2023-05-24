@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file.
 - Complete rewrite in .NET 7. Goodbye .NET Framework 4.8.1 - better performance, newer c# features and increased support for await/async model
 - Ability to override Update Versions - this enables the ability to rollback versions - thanks [@Nicolas-Miranda](https://github.com/amakvana/EzYuzu/issues/16)
   - `Options` > `Advanced` > `Override Update Versions`
-- Added Command Line arguments to allow EzYuzu to be executed via Command Line. This enables bulk updates in different locations, see [GUIDE](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md) for usage - thanks [@miapuffia](https://github.com/amakvana/EzYuzu/issues/17)
+- Added Command Line arguments to allow EzYuzu to be executed via Command Line. This enables bulk updates in different locations, see [GUIDE](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md#command-line-interface-options) for usage - thanks [@miapuffia](https://github.com/amakvana/EzYuzu/issues/17)
 - Added option to Launch Yuzu after successful update - thanks [@Xarishark](https://github.com/amakvana/EzYuzu/issues/21)
   - `Options` > `General` > `Update Yuzu` > `Launch Yuzu after Update`
 - When EzYuzu detects a newer version of Yuzu available to install, the `Update` button now also displays the build number available - thanks [@Nicolas-Miranda](https://github.com/amakvana/EzYuzu/issues/16)
