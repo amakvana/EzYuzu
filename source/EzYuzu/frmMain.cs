@@ -69,7 +69,7 @@ namespace EzYuzu
 
         private async void CboUpdateChannel_SelectedIndexChangedAsync(object sender, EventArgs e)
         {
-            if (!formHasLoaded)
+            if (!formHasLoaded || !cboUpdateChannel.Enabled)
                 return;
 
             // get branch based on selected index 
