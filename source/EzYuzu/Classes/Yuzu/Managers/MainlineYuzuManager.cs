@@ -37,13 +37,13 @@ namespace EzYuzu.Classes.Yuzu.Managers
                 var progressReporter = new Progress<float>(progress =>
                 {
                     var progressPercentage = (int)(progress * 100);
-                    RaiseUpdateProgressDelegate(progressPercentage, $"Downloading Yuzu Mainline {versionNumber} ...");
+                    RaiseUpdateProgress(progressPercentage, $"Downloading Yuzu Mainline {versionNumber} ...");
                 });
                 await client.DownloadAsync(downloadUrl, file, progressReporter);
             }
 
             // unpack yuzu
-            RaiseUpdateProgressDelegate(0, $@"Unpacking Yuzu Mainline {versionNumber} ...");
+            RaiseUpdateProgress(0, $@"Unpacking Yuzu Mainline {versionNumber} ...");
             var psi = new ProcessStartInfo
             {
                 UseShellExecute = true,
@@ -63,12 +63,12 @@ namespace EzYuzu.Classes.Yuzu.Managers
             // update version number
             var filePath = Path.Combine(YuzuDirectoryPath, "version");
             await File.WriteAllTextAsync(filePath, versionNumber);
-            RaiseUpdateProgressDelegate(100, $@"Unpacking Yuzu Mainline {versionNumber} ...");
+            RaiseUpdateProgress(100, $@"Unpacking Yuzu Mainline {versionNumber} ...");
 
             // cleanup
-            RaiseUpdateProgressDelegate(0, "Cleaning up ...");
+            RaiseUpdateProgress(0, "Cleaning up ...");
             CleanUpDirectories();
-            RaiseUpdateProgressDelegate(100, "Cleaning up ...");
+            RaiseUpdateProgress(100, "Cleaning up ...");
         }
     }
 }

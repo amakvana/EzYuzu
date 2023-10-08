@@ -1,9 +1,11 @@
+using EzYuzu.Classes.Settings;
 using EzYuzu.Classes.Updaters;
 using EzYuzu.Classes.Yuzu.Detectors;
 using EzYuzu.Classes.Yuzu.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using System.Security.Principal;
+using System.Text.Json;
 using static EzYuzu.Classes.Yuzu.Detectors.YuzuBranchDetector;
 using static EzYuzu.Classes.Yuzu.Detectors.YuzuInstallationStateDetector;
 
@@ -22,7 +24,9 @@ namespace EzYuzu
             InitializeComponent();
             grpOptionsIsExpanded = false;
             expandedGrpOptionsHeight = grpOptions.Height;
-            SetUiDefaults();
+
+            // set UI defaults - alter them if Ctrl is held down on launch 
+            LoadApplicationSettings(IsControlDown());
         }
 
         public FrmMain(IServiceProvider serviceProvider) : this()
@@ -62,14 +66,14 @@ namespace EzYuzu
             formHasLoaded = true;
         }
 
-        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
+        private async void FrmMain_FormClosedAsync(object sender, FormClosedEventArgs e)
         {
-            SaveApplicationSettings();
+            await SaveApplicationSettings();
         }
 
         private async void CboUpdateChannel_SelectedIndexChangedAsync(object sender, EventArgs e)
         {
-            if (!formHasLoaded)
+            if (!formHasLoaded || !cboUpdateChannel.Enabled)
                 return;
 
             // get branch based on selected index 
@@ -80,22 +84,21 @@ namespace EzYuzu
                 _ => YuzuBranch.Mainline
             };
 
-            // pass 
             await RefreshDetectedYuzuInstallationUpdateVersionsAsync(branch);
             await RefreshDetectedYuzuInstallationStateAsync(branch);
         }
 
         private async void CboUpdateVersion_SelectedIndexChangedAsync(object sender, EventArgs e)
         {
-            if (cboUpdateVersion.Enabled)
+            if (!cboUpdateVersion.Enabled)
+                return;
+
+            var branch = cboUpdateChannel.SelectedIndex switch
             {
-                var branch = cboUpdateChannel.SelectedIndex switch
-                {
-                    1 => YuzuBranch.EarlyAccess,
-                    _ => YuzuBranch.Mainline  // mainline by default 
-                };
-                await RefreshDetectedYuzuInstallationStateAsync(branch);
-            }
+                1 => YuzuBranch.EarlyAccess,
+                _ => YuzuBranch.Mainline  // mainline by default 
+            };
+            await RefreshDetectedYuzuInstallationStateAsync(branch);
         }
 
         private void LblYuzuLocation_Click(object sender, EventArgs e)
@@ -114,6 +117,7 @@ namespace EzYuzu
         {
             btnProcess.Enabled = false;
             txtYuzuLocation.Text = await ShowFolderBrowserDialogWindowAndGetResultAsync();
+            enableHDRToolStripMenuItem.Checked = File.Exists(Path.Combine(txtYuzuLocation.Text, "cemu.exe"));
 
             // refresh yuzu installation data 
             var branch = await RefreshDetectedYuzuInstallationUpdateBranchAsync();
@@ -123,7 +127,8 @@ namespace EzYuzu
             // launch Yuzu if install up to date and option checked 
             if (installationState == YuzuInstallationState.LatestVersionInstalled && launchYuzuAfterUpdateToolStripMenuItem.Checked)
             {
-                Process.Start(new ProcessStartInfo(Path.Combine(txtYuzuLocation.Text, "yuzu.exe"))
+                string exeToLaunch = enableHDRToolStripMenuItem.Checked ? "cemu.exe" : "yuzu.exe";
+                Process.Start(new ProcessStartInfo(Path.Combine(txtYuzuLocation.Text, exeToLaunch))
                 {
                     UseShellExecute = true
                 })?.Dispose();
@@ -188,6 +193,11 @@ namespace EzYuzu
             await RefreshDetectedYuzuInstallationUpdateVersionsAsync(branch);
             await RefreshDetectedYuzuInstallationStateAsync(branch);
 
+            // if EnableHDR option is checked 
+            File.Delete(Path.Combine(yuzuLocation, "cemu.exe"));
+            if (enableHDRToolStripMenuItem.Checked)
+                RenameFile(yuzuLocation, "yuzu.exe", "cemu.exe");
+
             // Enable UI controls
             lblProgress.Text = "Done!";
             ToggleUiControls(true);
@@ -195,7 +205,8 @@ namespace EzYuzu
             // launch Yuzu if option checked 
             if (launchYuzuAfterUpdateToolStripMenuItem.Checked)
             {
-                Process.Start(new ProcessStartInfo(Path.Combine(txtYuzuLocation.Text, "yuzu.exe"))
+                string exeToLaunch = enableHDRToolStripMenuItem.Checked ? "cemu.exe" : "yuzu.exe";
+                Process.Start(new ProcessStartInfo(Path.Combine(yuzuLocation, exeToLaunch))
                 {
                     UseShellExecute = true
                 })?.Dispose();
@@ -228,9 +239,9 @@ namespace EzYuzu
             })?.Dispose();
         }
 
-        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void ExitToolStripMenuItem_ClickAsync(object sender, EventArgs e)
         {
-            SaveApplicationSettings();
+            await SaveApplicationSettings();
             Application.Exit();
         }
 
@@ -266,33 +277,67 @@ namespace EzYuzu
             }
         }
 
+        private void EnableHDRToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // rename exe if option is checked and exe exists 
+            if (enableHDRToolStripMenuItem.Checked && File.Exists(Path.Combine(txtYuzuLocation.Text, "yuzu.exe")))
+            {
+                RenameFile(txtYuzuLocation.Text, "yuzu.exe", "cemu.exe");
+                return;
+            }
+
+            if (!enableHDRToolStripMenuItem.Checked && File.Exists(Path.Combine(txtYuzuLocation.Text, "cemu.exe")))
+            {
+                RenameFile(txtYuzuLocation.Text, "cemu.exe", "yuzu.exe");
+                return;
+            }
+        }
+
         //// ====================================================
         ////  METHODS 
         //// ====================================================
 
-        private void SetUiDefaults()
+        private void LoadApplicationSettings(bool isLaunchedInSafeMode)
         {
+            // default settings 
             toolTip1.SetToolTip(cboUpdateChannel, "The current Update Channel of Yuzu. Auto-detected when the Yuzu Path is selected. \n" +
                                                   "Can be manually overridden by going into Options > General > Update Channel > Override Update Channel. \n\n" +
                                                   "Mainline - Contains all regular daily Yuzu updates. More stable. \n" +
                                                   "Early Access - Contains the latest experimental features and fixes, before they are merged into Mainline builds. Less stable. \n\n" +
                                                   "When no channel is detected, EzYuzu defaults to Mainline.");
             toolTip1.SetToolTip(lblUpdateChannel, toolTip1.GetToolTip(cboUpdateChannel));
-            launchYuzuAfterUpdateToolStripMenuItem.Checked = Properties.Settings.Default.LaunchYuzuAfterUpdate;
             reinstallVisualCToolStripMenuItem.Checked = AppIsRunningAsAdministrator();
-            exitAfterUpdateToolStripMenuItem.Checked = Properties.Settings.Default.ExitAfterUpdate;
-            autoupdateOnEzYuzuStartToolStripMenuItem.Checked = Properties.Settings.Default.AutoUpdateOnEzYuzuStart;
-            txtYuzuLocation.Text = Properties.Settings.Default?.YuzuLocation;
-            if (!Directory.Exists(txtYuzuLocation.Text))
-            {
-                txtYuzuLocation.Clear();
-                Properties.Settings.Default!.YuzuLocation = "";
-                Properties.Settings.Default.Save();
-            }
 
             // hide options groupbox and shrink form 
             this.Size = new Size(this.Size.Width, this.Size.Height - expandedGrpOptionsHeight);
             grpOptions.Height = 0;
+
+            // safe mode ui adjustments 
+            if (isLaunchedInSafeMode)
+            {
+                this.Text = $"{this.Text} - Safe Mode";
+            }
+
+            if (!File.Exists("EzYuzu.settings.json"))
+                return;
+
+            // if EzYuzu.json exists, load in preferences 
+            string json = File.ReadAllText("EzYuzu.settings.json");
+            var settings = JsonSerializer.Deserialize<EzYuzuSettings>(json)!;
+            txtYuzuLocation.Text = settings.YuzuLocation;
+
+            // non safe mode ui adjustments 
+            if (!isLaunchedInSafeMode)
+            {
+                launchYuzuAfterUpdateToolStripMenuItem.Checked = settings.LaunchYuzuAfterUpdate;
+                exitAfterUpdateToolStripMenuItem.Checked = settings.ExitEzYuzuAfterUpdate;
+                autoupdateOnEzYuzuStartToolStripMenuItem.Checked = settings.AutoUpdateYuzuOnEzYuzuLaunch;
+                enableHDRToolStripMenuItem.Checked = settings.EnableHdrSupport || File.Exists(Path.Combine(settings.YuzuLocation, "cemu.exe"));
+                if (!Directory.Exists(txtYuzuLocation.Text))
+                {
+                    txtYuzuLocation.Clear();
+                }
+            }
         }
 
         private void ToggleUiControls(bool value)
@@ -327,14 +372,22 @@ namespace EzYuzu
             }
         }
 
-        private void SaveApplicationSettings()
+        private async Task SaveApplicationSettings()
         {
-            // save selected yuzu location 
-            Properties.Settings.Default.YuzuLocation = txtYuzuLocation.Text;
-            Properties.Settings.Default.LaunchYuzuAfterUpdate = launchYuzuAfterUpdateToolStripMenuItem.Checked;
-            Properties.Settings.Default.ExitAfterUpdate = exitAfterUpdateToolStripMenuItem.Checked;
-            Properties.Settings.Default.AutoUpdateOnEzYuzuStart = autoupdateOnEzYuzuStartToolStripMenuItem.Checked;
-            Properties.Settings.Default.Save();
+            // save ui settings to EzYuzu.json 
+            var appSettings = new EzYuzuSettings()
+            {
+                YuzuLocation = txtYuzuLocation.Text,
+                LaunchYuzuAfterUpdate = launchYuzuAfterUpdateToolStripMenuItem.Checked,
+                ExitEzYuzuAfterUpdate = exitAfterUpdateToolStripMenuItem.Checked,
+                AutoUpdateYuzuOnEzYuzuLaunch = autoupdateOnEzYuzuStartToolStripMenuItem.Checked,
+                EnableHdrSupport = enableHDRToolStripMenuItem.Checked
+            };
+            await using var file = File.Create(Path.Combine(AppContext.BaseDirectory, "EzYuzu.settings.json"));
+            await JsonSerializer.SerializeAsync(file, appSettings, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
         }
 
         private async Task CheckAppVersionAsync()
@@ -358,6 +411,10 @@ namespace EzYuzu
                         UseShellExecute = true,
                         Verb = "Open"
                     })?.Dispose();
+                    Application.Exit();
+                    break;
+                case AppUpdater.CurrentVersion.Undetectable:
+                    MessageBox.Show("Network Connection Error! Please check your internet connection and try again.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Application.Exit();
                     break;
             }
@@ -409,6 +466,7 @@ namespace EzYuzu
             // detect whether current install is up-to-date
             var stateDetector = new YuzuInstallationStateDetector(yuzuDirectoryPath, detectedYuzuBranch);
             var installationState = await stateDetector.GetYuzuInstallationStateAsync(latestVersionAvailableFromBranch);
+            var currentInstalledVersion = await stateDetector.GetCurrentYuzuInstalledVersion();
 
             // update ui based on installation state 
             switch (installationState)
@@ -419,7 +477,7 @@ namespace EzYuzu
                     btnProcess.Enabled = false;
                     break;
                 case YuzuInstallationState.UpdateAvailable:
-                    btnProcess.Text = $"Update to Yuzu {latestVersionAvailableFromBranch}";
+                    btnProcess.Text = $"Update from {currentInstalledVersion} to {latestVersionAvailableFromBranch}";
                     toolTip1.SetToolTip(btnProcess, "Click to download the latest version of Yuzu");
                     btnProcess.Enabled = true;
                     break;
@@ -461,16 +519,33 @@ namespace EzYuzu
 
             Thread t = new(() =>
             {
-                // if folder has been selected
                 if (fbd.ShowDialog() == DialogResult.OK)
-                {
                     folder.SetResult(fbd.SelectedPath.Trim());
-                }
             });
 
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
             return await folder.Task;
+        }
+
+        private static bool IsControlDown()
+        {
+            // https://stackoverflow.com/a/27939079
+            return (ModifierKeys & Keys.Control) == Keys.Control;
+        }
+
+        private static void RenameFile(string path, string oldFileName, string newFileName)
+        {
+            // ensure renaming doesn't happen while file is being written to filesystem 
+            bool renamed = false;
+            while (!renamed)
+            {
+                if (!File.Exists(Path.Combine(path, oldFileName)))
+                    continue;
+
+                File.Move(Path.Combine(path, oldFileName), Path.Combine(path, newFileName), true);
+                renamed = true;
+            }
         }
     }
 }

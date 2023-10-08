@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.6.2.0] - 2023-10-08
+
+### Added
+
+- EzYuzu can now enable HDR for Yuzu - thanks [@bannert1337](https://github.com/amakvana/EzYuzu/issues/40)
+  - GUI toggle can be found under `Options` > `General` > `Update Yuzu` > `Enable HDR Support`
+  - Command line argument is `--enable-hdr`
+- Safe Mode - used to bypass user preferences and load defaults - thanks [@buthig666](https://github.com/amakvana/EzYuzu/issues/36)
+  - Hold `Ctrl` down before launching EzYuzu
+
+### Changed
+
+- EzYuzu now pulls 7-Zip 23.01 instead of 22.01 - better performance
+- EzYuzu now saves its user preferences inside `EzYuzu.settings.json`, alongside EzYuzu.exe. Allows multiple instances of EzYuzu to be used with unique preferences - thanks [@Xarishark](https://github.com/amakvana/EzYuzu/issues/24)
+- UI Tweaks
+  - Reordered options inside `Options` > `General` > `Update Yuzu`
+  - Change the "Update to Yuzu [version]" label on the button to "Update from [current version] to [new version]" - thanks [@mateohhh](https://github.com/amakvana/EzYuzu/issues/35)
+
+### Fixed
+
+- [Issue #33](https://github.com/amakvana/EzYuzu/issues/33) - Bug inside `version` file if contents did not contain an integer - thanks [@DebugDax](https://github.com/amakvana/EzYuzu/issues/33)
+- Avoid multiple calls to `RefreshDetectedYuzuInstallationStateAsync()` for improved performance - thanks [@informagico](https://github.com/amakvana/EzYuzu/pull/34)
+- Couple minor bug fixes
+
+<br>
+
 ## [1.6.1.0] - 2023-05-24
 
 ### Added

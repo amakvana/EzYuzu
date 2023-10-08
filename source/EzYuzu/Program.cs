@@ -73,9 +73,12 @@ namespace EzYuzu
                         Verb = "Open"
                     })?.Dispose();
                     return;
+                case AppUpdater.CurrentVersion.Undetectable:
+                    MessageBox.Show("Network Connection Error! Please check your internet connection and try again.", "EzYuzu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
             }
 
-            // current version of EzYuz is latest, process command line args 
+            // current version of EzYuzu is latest, process command line args 
 
             // prepare Parser and redirect HelpWriter into SW 
             using var helpWriter = new StringWriter();
@@ -96,9 +99,10 @@ namespace EzYuzu
                 }
 
                 var updater = new YuzuCommandLineUpdater(serviceProvider);
-                await updater.ProcessYuzuDirectory(options.YuzuLocationPath, branch, options.UpdateVersion, options.LaunchYuzuAfterUpdate);
+                await updater.ProcessYuzuDirectory(options.YuzuLocationPath, branch, options.UpdateVersion, options.LaunchYuzuAfterUpdate, options.EnableHDR);
             });
-            parserResults.WithNotParsed(options => {
+            parserResults.WithNotParsed(options =>
+            {
                 if (options.IsVersion() || options.IsHelp())
                 {
                     MessageBox.Show(helpWriter.ToString(), "EzYuzu", MessageBoxButtons.OK, MessageBoxIcon.Information);

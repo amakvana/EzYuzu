@@ -42,6 +42,7 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
 - `Update Channel` and `Update Version` can be overridden by checking the options within `Options` > `Advanced`
 - Post-Update options can be found under `Options` > `General` > `Update Yuzu`
 - It shouldn't overwrite configs unless `New Install` is displayed. However, backup beforehand.
+- Safe Mode can be launched via holding `Ctrl` then launching EzYuzu.exe
 - Temp files are stored within `TempUpdate` and are deleted upon completion.
 - [GUIDE](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md) for detailed instructions, along with [Command Line options](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md#command-line-interface-options).
 
@@ -51,7 +52,7 @@ https://github.com/amakvana/EzYuzu/releases/latest
 
 Requires:
 
-- Latest [7-Zip](https://www.7-zip.org/a/7z2201-x64.msi) installed.
+- Latest [7-Zip](https://www.7-zip.org/a/7z2301-x64.msi) installed.
 - Latest [.NET 7 Desktop Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-7.0.5-windows-x64-installer) installed.
 - Latest [Visual C++ X64 Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe) installed.
 

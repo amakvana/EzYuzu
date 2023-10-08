@@ -20,5 +20,8 @@ namespace EzYuzu.Classes.CLOptions
         [Option('l', "launch-yuzu", Default = false, HelpText = "Launch Yuzu after new install/update.")]
         public bool LaunchYuzuAfterUpdate { get; set; }
 
+        [Option("enable-hdr", Default = false, HelpText = "Enables HDR by renaming yuzu.exe to cemu.exe.")]
+        public bool EnableHDR { get; set; }
+
     }
 }

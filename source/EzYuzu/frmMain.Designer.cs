@@ -40,10 +40,11 @@
             optionsToolStripMenuItem = new ToolStripMenuItem();
             generalToolStripMenuItem = new ToolStripMenuItem();
             updateYuzuToolStripMenuItem = new ToolStripMenuItem();
+            autoupdateOnEzYuzuStartToolStripMenuItem = new ToolStripMenuItem();
+            enableHDRToolStripMenuItem = new ToolStripMenuItem();
+            exitAfterUpdateToolStripMenuItem = new ToolStripMenuItem();
             launchYuzuAfterUpdateToolStripMenuItem = new ToolStripMenuItem();
             reinstallVisualCToolStripMenuItem = new ToolStripMenuItem();
-            exitAfterUpdateToolStripMenuItem = new ToolStripMenuItem();
-            autoupdateOnEzYuzuStartToolStripMenuItem = new ToolStripMenuItem();
             advancedToolStripMenuItem = new ToolStripMenuItem();
             overrideUpdateChannelToolStripMenuItem = new ToolStripMenuItem();
             overrideUpdateVersionToolStripMenuItem = new ToolStripMenuItem();
@@ -130,7 +131,7 @@
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             exitToolStripMenuItem.Size = new Size(92, 22);
             exitToolStripMenuItem.Text = "Exit";
-            exitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
+            exitToolStripMenuItem.Click += ExitToolStripMenuItem_ClickAsync;
             // 
             // optionsToolStripMenuItem
             // 
@@ -148,17 +149,42 @@
             // 
             // updateYuzuToolStripMenuItem
             // 
-            updateYuzuToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { launchYuzuAfterUpdateToolStripMenuItem, reinstallVisualCToolStripMenuItem, exitAfterUpdateToolStripMenuItem, autoupdateOnEzYuzuStartToolStripMenuItem });
+            updateYuzuToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { autoupdateOnEzYuzuStartToolStripMenuItem, enableHDRToolStripMenuItem, exitAfterUpdateToolStripMenuItem, launchYuzuAfterUpdateToolStripMenuItem, reinstallVisualCToolStripMenuItem });
             updateYuzuToolStripMenuItem.Name = "updateYuzuToolStripMenuItem";
             updateYuzuToolStripMenuItem.Size = new Size(180, 22);
             updateYuzuToolStripMenuItem.Text = "Update Yuzu";
+            // 
+            // autoupdateOnEzYuzuStartToolStripMenuItem
+            // 
+            autoupdateOnEzYuzuStartToolStripMenuItem.CheckOnClick = true;
+            autoupdateOnEzYuzuStartToolStripMenuItem.Name = "autoupdateOnEzYuzuStartToolStripMenuItem";
+            autoupdateOnEzYuzuStartToolStripMenuItem.Size = new Size(227, 22);
+            autoupdateOnEzYuzuStartToolStripMenuItem.Text = "Auto-Update on EzYuzu Start";
+            autoupdateOnEzYuzuStartToolStripMenuItem.ToolTipText = "Automatically update Yuzu when EzYuzu is launched";
+            // 
+            // enableHDRToolStripMenuItem
+            // 
+            enableHDRToolStripMenuItem.CheckOnClick = true;
+            enableHDRToolStripMenuItem.Name = "enableHDRToolStripMenuItem";
+            enableHDRToolStripMenuItem.Size = new Size(227, 22);
+            enableHDRToolStripMenuItem.Text = "Enable HDR Support";
+            enableHDRToolStripMenuItem.ToolTipText = "Renames yuzu.exe to cemu.exe to enable HDR support";
+            enableHDRToolStripMenuItem.Click += EnableHDRToolStripMenuItem_Click;
+            // 
+            // exitAfterUpdateToolStripMenuItem
+            // 
+            exitAfterUpdateToolStripMenuItem.CheckOnClick = true;
+            exitAfterUpdateToolStripMenuItem.Name = "exitAfterUpdateToolStripMenuItem";
+            exitAfterUpdateToolStripMenuItem.Size = new Size(227, 22);
+            exitAfterUpdateToolStripMenuItem.Text = "Exit EzYuzu After Update";
+            exitAfterUpdateToolStripMenuItem.ToolTipText = "Exit EzYuzu after Yuzu has been updated";
             // 
             // launchYuzuAfterUpdateToolStripMenuItem
             // 
             launchYuzuAfterUpdateToolStripMenuItem.CheckOnClick = true;
             launchYuzuAfterUpdateToolStripMenuItem.Name = "launchYuzuAfterUpdateToolStripMenuItem";
-            launchYuzuAfterUpdateToolStripMenuItem.Size = new Size(225, 22);
-            launchYuzuAfterUpdateToolStripMenuItem.Text = "Launch Yuzu after update";
+            launchYuzuAfterUpdateToolStripMenuItem.Size = new Size(227, 22);
+            launchYuzuAfterUpdateToolStripMenuItem.Text = "Launch Yuzu After Update";
             launchYuzuAfterUpdateToolStripMenuItem.ToolTipText = "Launch Yuzu after Update or New Install is complete";
             // 
             // reinstallVisualCToolStripMenuItem
@@ -166,25 +192,9 @@
             reinstallVisualCToolStripMenuItem.CheckOnClick = true;
             reinstallVisualCToolStripMenuItem.Enabled = false;
             reinstallVisualCToolStripMenuItem.Name = "reinstallVisualCToolStripMenuItem";
-            reinstallVisualCToolStripMenuItem.Size = new Size(225, 22);
+            reinstallVisualCToolStripMenuItem.Size = new Size(227, 22);
             reinstallVisualCToolStripMenuItem.Text = "Reinstall Visual C++";
             reinstallVisualCToolStripMenuItem.ToolTipText = "Automatically reinstall Visual C++ Redistrbutables when EzYuzu is run as Administrator";
-            // 
-            // exitAfterUpdateToolStripMenuItem
-            // 
-            exitAfterUpdateToolStripMenuItem.CheckOnClick = true;
-            exitAfterUpdateToolStripMenuItem.Name = "exitAfterUpdateToolStripMenuItem";
-            exitAfterUpdateToolStripMenuItem.Size = new Size(225, 22);
-            exitAfterUpdateToolStripMenuItem.Text = "Exit after update";
-            exitAfterUpdateToolStripMenuItem.ToolTipText = "Exit EzYuzu after Yuzu has been updated";
-            // 
-            // autoupdateOnEzYuzuStartToolStripMenuItem
-            // 
-            autoupdateOnEzYuzuStartToolStripMenuItem.CheckOnClick = true;
-            autoupdateOnEzYuzuStartToolStripMenuItem.Name = "autoupdateOnEzYuzuStartToolStripMenuItem";
-            autoupdateOnEzYuzuStartToolStripMenuItem.Size = new Size(225, 22);
-            autoupdateOnEzYuzuStartToolStripMenuItem.Text = "Auto-update on EzYuzu start";
-            autoupdateOnEzYuzuStartToolStripMenuItem.ToolTipText = "Automatically update Yuzu when EzYuzu is launched";
             // 
             // advancedToolStripMenuItem
             // 
@@ -345,7 +355,7 @@
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "EzYuzu - Yuzu Portable Updater";
-            FormClosed += FrmMain_FormClosed;
+            FormClosed += FrmMain_FormClosedAsync;
             Load += FrmMain_LoadAsync;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -386,5 +396,6 @@
         private GroupBox grpOptions;
         private ToolStripMenuItem exitAfterUpdateToolStripMenuItem;
         private ToolStripMenuItem autoupdateOnEzYuzuStartToolStripMenuItem;
+        private ToolStripMenuItem enableHDRToolStripMenuItem;
     }
 }

@@ -4,36 +4,41 @@ namespace EzYuzu.Classes.Updaters
 {
     public sealed class AppUpdater
     {
+        private const int LatestVersionLineLocation = 1;
         private readonly IHttpClientFactory? clientFactory;
+        private readonly string currentAppVersion;
 
         public AppUpdater(IHttpClientFactory clientFactory)
         {
             this.clientFactory = clientFactory;
+            currentAppVersion = Application.ProductVersion.Trim();
         }
 
-        public AppUpdater(IServiceProvider serviceProvider)
-        {
-            this.clientFactory = serviceProvider.GetService<IHttpClientFactory>();
-        }
+        public AppUpdater(IServiceProvider serviceProvider) : this(serviceProvider.GetService<IHttpClientFactory>()!) { }
 
         public enum CurrentVersion
         {
             LatestVersion,
             UpdateAvailable,
-            NotSupported
+            NotSupported,
+            Undetectable    // used when any errors are thrown, such as no connection, etc.
         }
 
         public async Task<CurrentVersion> CheckVersionAsync()
         {
             // latest version is always on top line 
             // so we check and see how many times the loop has iterated and compare it against 1 
-            const int LatestVersionLineLocation = 1;
-            string currentAppVersion = Application.ProductVersion.Trim();
-
             try
             {
                 var client = clientFactory!.CreateClient("GitHub-EzYuzu");
-                using var stream = await client.GetStreamAsync("version");
+                using var response = await client.GetAsync("version");
+
+                // if response isn't okay, return undetectable
+                if (!response.IsSuccessStatusCode)
+                    return CurrentVersion.Undetectable;
+
+                // otherwise get the version and parse it 
+                using var stream = await response.Content.ReadAsStreamAsync();
                 using var reader = new StreamReader(stream);
                 int i = 1;
                 string? onlineVersion;
@@ -53,7 +58,8 @@ namespace EzYuzu.Classes.Updaters
             }
             catch
             {
-                return CurrentVersion.NotSupported;
+                // connection issues
+                return CurrentVersion.Undetectable;
             }
         }
     }

@@ -17,7 +17,7 @@ namespace EzYuzu.Classes.CLOptions
             clientFactory = serviceProvider.GetService<IHttpClientFactory>();
         }
 
-        public async Task ProcessYuzuDirectory(string? yuzuLocationPath, YuzuBranch branch, int updateVersion, bool launchYuzu)
+        public async Task ProcessYuzuDirectory(string? yuzuLocationPath, YuzuBranch branch, int updateVersion, bool launchYuzu, bool enableHdr)
         {
             // if no path passed, exit method 
             if (yuzuLocationPath is null)
@@ -27,6 +27,10 @@ namespace EzYuzu.Classes.CLOptions
             // modify the path so it strips the file from the path and return the absolute directory only 
             if (yuzuLocationPath.EndsWith("yuzu.exe", StringComparison.OrdinalIgnoreCase))
                 yuzuLocationPath = Path.GetDirectoryName(yuzuLocationPath);
+
+            // rename old cemu.exe to yuzu.exe to avoid naming conflicts
+            if (!enableHdr && File.Exists(Path.Combine(yuzuLocationPath!, "cemu.exe")))
+                RenameFile(yuzuLocationPath!, "cemu.exe", "yuzu.exe");
 
             // if no branch passed in, auto detect branch
             var branchDetector = new YuzuBranchDetector(clientFactory!)
@@ -72,7 +76,8 @@ namespace EzYuzu.Classes.CLOptions
             // speeds up processing 
             if (installationState == YuzuInstallationState.LatestVersionInstalled && launchYuzu)
             {
-                Process.Start(new ProcessStartInfo(Path.Combine(yuzuLocationPath!, "yuzu.exe"))
+                string exeToLaunch = File.Exists(Path.Combine(yuzuLocationPath!, "cemu.exe")) ? "cemu.exe" : "yuzu.exe";
+                Process.Start(new ProcessStartInfo(Path.Combine(yuzuLocationPath!, exeToLaunch))
                 {
                     UseShellExecute = true
                 })?.Dispose();
@@ -113,14 +118,21 @@ namespace EzYuzu.Classes.CLOptions
                     break;
             }
 
+            // if EnableHDR option is passed in 
+            if (enableHdr)
+                RenameFile(yuzuLocationPath!, "yuzu.exe", "cemu.exe");
+
             // launch Yuzu if option passed in
             if (launchYuzu)
             {
-                Process.Start(new ProcessStartInfo(Path.Combine(yuzuLocationPath!, "yuzu.exe"))
+                string exeToLaunch = enableHdr ? "cemu.exe" : "yuzu.exe";
+                Process.Start(new ProcessStartInfo(Path.Combine(yuzuLocationPath!, exeToLaunch))
                 {
                     UseShellExecute = true
                 })?.Dispose();
             }
+
+            Directory.Delete(yuzuManager.TempUpdateDirectoryPath, true);
         }
 
         private static bool AppIsRunningAsAdministrator()
@@ -133,6 +145,20 @@ namespace EzYuzu.Classes.CLOptions
             catch
             {
                 return false;
+            }
+        }
+
+        private static void RenameFile(string path, string oldFileName, string newFileName)
+        {
+            // ensure renaming doesn't happen while file is being written to filesystem 
+            bool renamed = false;
+            while (!renamed)
+            {
+                if (!File.Exists(Path.Combine(path, oldFileName)))
+                    continue;
+
+                File.Move(Path.Combine(path, oldFileName), Path.Combine(path, newFileName), true);
+                renamed = true;
             }
         }
     }

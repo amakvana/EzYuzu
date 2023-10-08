@@ -14,11 +14,9 @@ namespace EzYuzu.Classes.Yuzu.Managers
             this.clientFactory = clientFactory;
         }
 
-        protected internal delegate void UpdateProgressDelegate(int progressPercentage, string progressText);
+        protected internal Action<int, string>? UpdateProgress;
 
-        protected internal event UpdateProgressDelegate? UpdateProgress;
-
-        protected void RaiseUpdateProgressDelegate(int progressPercentage, string progressText)
+        protected void RaiseUpdateProgress(int progressPercentage, string progressText)
         {
             UpdateProgress?.Invoke(progressPercentage, progressText);
         }
@@ -148,7 +146,7 @@ namespace EzYuzu.Classes.Yuzu.Managers
             var progressReporter = new Progress<float>(progress =>
             {
                 var progressPercentage = (int)(progress * 100);
-                RaiseUpdateProgressDelegate(progressPercentage, $@"Downloading Optimised GPU Config ...");
+                RaiseUpdateProgress(progressPercentage, $@"Downloading Optimised GPU Config ...");
             });
             await client.DownloadAsync($"configs/{gpuConfigIni}", file, progressReporter);
         }
@@ -169,13 +167,13 @@ namespace EzYuzu.Classes.Yuzu.Managers
                 var progressReporter = new Progress<float>(progress =>
                 {
                     var progressPercentage = (int)(progress * 100);
-                    RaiseUpdateProgressDelegate(progressPercentage, $@"Downloading {fileName} ...");
+                    RaiseUpdateProgress(progressPercentage, $@"Downloading {fileName} ...");
                 });
                 await client.DownloadAsync("https://aka.ms/vs/16/release/vc_redist.x64.exe", file, progressReporter);
             }
 
             // install visual c++
-            RaiseUpdateProgressDelegate(0, $"Installing {fileName} ...");
+            RaiseUpdateProgress(0, $"Installing {fileName} ...");
             var psi = new ProcessStartInfo
             {
                 UseShellExecute = true,
@@ -188,7 +186,7 @@ namespace EzYuzu.Classes.Yuzu.Managers
             {
                 await p.WaitForExitAsync();
             }
-            RaiseUpdateProgressDelegate(100, $"Installing {fileName} ...");
+            RaiseUpdateProgress(100, $"Installing {fileName} ...");
         }
 
         /// <summary>
@@ -198,20 +196,24 @@ namespace EzYuzu.Classes.Yuzu.Managers
         private static void CloseYuzu()
         {
             // get all running yuzu processes 
-            var procs = Process.GetProcessesByName("yuzu");
-
-            // if none, return 
-            if (procs is null)
-                return;
-
-            // otherwise, terminate each running yuzu process
-            foreach (var proc in procs)
+            string[] processNames = { "yuzu", "cemu" };
+            foreach (var name in processNames)
             {
-                if (!proc.HasExited)
+                var procs = Process.GetProcessesByName(name);
+
+                // if none, return 
+                if (procs is null)
+                    continue;
+
+                // otherwise, terminate each running yuzu process
+                foreach (var proc in procs)
                 {
-                    proc.Kill();
+                    if (!proc.HasExited)
+                    {
+                        proc.Kill();
+                    }
+                    proc.Dispose();
                 }
-                proc.Dispose();
             }
         }
 
@@ -270,9 +272,9 @@ namespace EzYuzu.Classes.Yuzu.Managers
                 var progressReporter = new Progress<float>(progress =>
                 {
                     var progressPercentage = (int)(progress * 100);
-                    RaiseUpdateProgressDelegate(progressPercentage, $@"Downloading 7-Zip ...");
+                    RaiseUpdateProgress(progressPercentage, $@"Downloading 7-Zip ...");
                 });
-                await client.DownloadAsync("assets/7z/22.01/7z.zip", file, progressReporter);
+                await client.DownloadAsync("assets/7z/23.01/7z.zip", file, progressReporter);
             }
 
             // unpacking prerequisites
@@ -285,7 +287,7 @@ namespace EzYuzu.Classes.Yuzu.Managers
                     entry.ExtractToFile(Path.Combine($"{prerequisitesLocation}", entry.FullName), true);
                     copiedFiles++;
                     int progressPercentage = (int)((double)copiedFiles / totalFiles * 100);
-                    RaiseUpdateProgressDelegate(progressPercentage, "Unpacking 7-Zip ...");
+                    RaiseUpdateProgress(progressPercentage, "Unpacking 7-Zip ...");
                 }
             }
         }

@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Latest [7-Zip](https://www.7-zip.org/a/7z2201-x64.msi) installed.
+- Latest [7-Zip](https://www.7-zip.org/a/7z2301-x64.msi) installed.
 - Latest [.NET 7 Desktop Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-7.0.5-windows-x64-installer) installed.
 - Latest [Visual C++ X64 Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe) installed.
 
@@ -37,6 +37,14 @@
 | `Dependencies` | Automatically installed when EzYuzu is ran as Administrator.                                                                                       |
 
 ## Graphical User Interface Options
+
+### Safe Mode
+
+To launch EzYuzu in Safe Mode and reset user preferences:
+
+1. Ensure all instances of EzYuzu are closed.
+2. Hold `Ctrl` down, then launch EzYuzu.
+3. When done correctly, EzYuzu's title bar will display "EzYuzu - Yuzu Portable Updater - Safe Mode"
 
 ### New Install
 
@@ -83,6 +91,7 @@ To install Yuzu Portable for the first time:
 -e, --early-access      Force EzYuzu to use Early-Access channel when updating Yuzu
 -v                      Set a specific version number to update/rollback Yuzu to. Useful when needing to rollback Yuzu. Must wrap version number in double quotes.
 -l, --launch-yuzu       Launch Yuzu after successful New Install/Update
+--enable-hdr            Enables HDR by renaming yuzu.exe to cemu.exe. Can be used alongside all other switches.
 
 --help                  Displays the EzYuzu help screen
 --version               Displays EzYuzu's version information
@@ -93,35 +102,47 @@ To install Yuzu Portable for the first time:
 New Install/Update to latest Yuzu, automatically detecting Update Channel and Version:
 
 ```
-EzYuzu.exe -p "D:\Yuzu"
+start "" /wait "EzYuzu.exe" -p "D:\Yuzu"
+```
+
+New Install/Update to latest Yuzu, automatically detecting Update Channel/Version and Enable HDR:
+
+```
+start "" /wait "EzYuzu.exe" -p "D:\Yuzu" --enable-hdr
 ```
 
 Update to latest Yuzu, switching Update channel to Mainline:
 
 ```
-EzYuzu.exe -p "D:\Yuzu" -m
+start "" /wait "EzYuzu.exe" -p "D:\Yuzu" -m
 ```
 
 Update to latest Yuzu, switching Update channel to Early-Access:
 
 ```
-EzYuzu.exe -p "D:\Yuzu" -e
+start "" /wait "EzYuzu.exe" -p "D:\Yuzu" -e
 ```
 
 Update/rollback to specific version of Mainline Yuzu (e.g. 1437):
 
 ```
-EzYuzu.exe -p "D:\Yuzu" -m -v "1437"
+start "" /wait "EzYuzu.exe" -p "D:\Yuzu" -m -v "1437"
 ```
 
 Update/rollback to specific version of Early-Access Yuzu (e.g. 3600):
 
 ```
-EzYuzu.exe -p "D:\Yuzu" -e -v "3600"
+start "" /wait "EzYuzu.exe" -p "D:\Yuzu" -e -v "3600"
 ```
 
-Launch Yuzu after EzYuzu has completed an update
+Launch Yuzu after EzYuzu has completed an update:
 
 ```
-EzYuzu.exe -p "D:\Yuzu" -l
+start "" /wait "EzYuzu.exe" -p "D:\Yuzu" -l
+```
+
+Update Yuzu, Enable HDR then Launch Yuzu:
+
+```
+start "" /wait "EzYuzu.exe" -p "D:\Yuzu" -l --enable-hdr
 ```
