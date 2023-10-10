@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 <br>
 
+## [1.6.2.1] - 2023-10-10
+
+### Fixed
+
+- [Issue #43](https://github.com/amakvana/EzYuzu/issues/43) - Race condition which caused EzYuzu to crash when `Launch Yuzu After Update` was checked - thanks [@DebugDax](https://github.com/amakvana/EzYuzu/issues/43), [@Gwouigwoui](https://github.com/amakvana/EzYuzu/issues/43)
+
+<br>
+
 ## [1.6.2.0] - 2023-10-08
 
 ### Added

@@ -54,13 +54,7 @@ namespace EzYuzu
 
                 // launch Yuzu if install up to date and option checked 
                 if (installationState == YuzuInstallationState.LatestVersionInstalled && launchYuzuAfterUpdateToolStripMenuItem.Checked)
-                {
-                    Process.Start(new ProcessStartInfo(Path.Combine(txtYuzuLocation.Text, "yuzu.exe"))
-                    {
-                        UseShellExecute = true
-                    })?.Dispose();
-                    Application.Exit();
-                }
+                    LaunchYuzu(txtYuzuLocation.Text);
             }
 
             formHasLoaded = true;
@@ -126,14 +120,7 @@ namespace EzYuzu
 
             // launch Yuzu if install up to date and option checked 
             if (installationState == YuzuInstallationState.LatestVersionInstalled && launchYuzuAfterUpdateToolStripMenuItem.Checked)
-            {
-                string exeToLaunch = enableHDRToolStripMenuItem.Checked ? "cemu.exe" : "yuzu.exe";
-                Process.Start(new ProcessStartInfo(Path.Combine(txtYuzuLocation.Text, exeToLaunch))
-                {
-                    UseShellExecute = true
-                })?.Dispose();
-                Application.Exit();
-            }
+                LaunchYuzu(txtYuzuLocation.Text);
         }
 
         private async void BtnProcess_ClickAsync(object sender, EventArgs e)
@@ -204,15 +191,8 @@ namespace EzYuzu
 
             // launch Yuzu if option checked 
             if (launchYuzuAfterUpdateToolStripMenuItem.Checked)
-            {
-                string exeToLaunch = enableHDRToolStripMenuItem.Checked ? "cemu.exe" : "yuzu.exe";
-                Process.Start(new ProcessStartInfo(Path.Combine(yuzuLocation, exeToLaunch))
-                {
-                    UseShellExecute = true
-                })?.Dispose();
-                Application.Exit();
-            }
-
+                LaunchYuzu(yuzuLocation);
+            
             // if "Exit After Update" is selected, exit app 
             if (exitAfterUpdateToolStripMenuItem.Checked)
                 Application.Exit();
@@ -314,9 +294,7 @@ namespace EzYuzu
 
             // safe mode ui adjustments 
             if (isLaunchedInSafeMode)
-            {
                 this.Text = $"{this.Text} - Safe Mode";
-            }
 
             if (!File.Exists("EzYuzu.settings.json"))
                 return;
@@ -546,6 +524,33 @@ namespace EzYuzu
                 File.Move(Path.Combine(path, oldFileName), Path.Combine(path, newFileName), true);
                 renamed = true;
             }
+        }
+
+        private static void LaunchYuzu(string yuzuLocationPath)
+        {
+            // wait for executable to exist
+            bool executableExists = false;
+            string executableToLaunch = "";
+            string[] possibleExecutables = { "yuzu.exe", "cemu.exe" };
+            while (!executableExists)
+            {
+                foreach (var executable in possibleExecutables)
+                {
+                    if (File.Exists(Path.Combine(yuzuLocationPath, executable)))
+                    {
+                        executableExists = true;
+                        executableToLaunch = executable;
+                        break;
+                    }
+                }
+            }
+
+            // executable now exists, run it 
+            Process.Start(new ProcessStartInfo(Path.Combine(yuzuLocationPath, executableToLaunch))
+            {
+                UseShellExecute = true
+            })?.Dispose();
+            Application.Exit();
         }
     }
 }
