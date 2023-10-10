@@ -17,7 +17,8 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
   - [Methodology](#methodology)
   - [Basic Usage](#basic-usage)
 - [Download](#downloads)
-- [Installation](#installation)
+- [Installation - Windows Tutorial](#installation)
+- [Installation - YouTube Tutorial]
 - [User Guide](#user-guide)
 - [Acknowledgements](#acknowledgements)
 
@@ -56,7 +57,7 @@ Requires:
 - Latest [.NET 7 Desktop Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-7.0.5-windows-x64-installer) installed.
 - Latest [Visual C++ X64 Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe) installed.
 
-## Installation
+## Installation - Windows Tutorial
 
 Extract the entire contents of the `EzYuzu.zip` file, including all `.dll` files, into a folder and run `EzYuzu.exe`
 
@@ -67,6 +68,10 @@ EzYuzu is 100% portable - it can be run from any location.
 EzYuzu does not require Administrator privileges to update Yuzu.
 
 Running as Administrator will install Visual C++ Redistributables dependencies.
+
+## Installation - YouTube Tutorial
+
+[![Watch the video](images/ezyuzu-youtube.jpg)](https://youtu.be/hZ5qipPfK5k)
 
 ## User Guide
 
@@ -80,3 +85,4 @@ Thanks:
 - [PineappleEA](https://github.com/pineappleEA/pineapple-src) - Early Access Builds
 - [Stellar](https://github.com/StellarUpdater/Stellar) - Inspiration
 - [Agus Raharjo](https://www.iconfinder.com/agusraharj) - Icons
+- [GeniusBug](https://youtu.be/hZ5qipPfK5k) - YouTube Tutorial Guide
