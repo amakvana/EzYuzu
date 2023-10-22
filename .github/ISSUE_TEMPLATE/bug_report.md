@@ -26,6 +26,9 @@ If applicable, add screenshots to help explain your problem.
 **Desktop (please complete the following information):**
  - OS: [e.g. Windows 10, Windows 7]
   - Version [e.g. 22]
+  - Full path to Yuzu.exe
+  - Is Yuzu running in `Portable` mode?
+  - Attach `qt-config.ini` file 
 
 **Additional context**
 Add any other context about the problem here.
