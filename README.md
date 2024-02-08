@@ -20,6 +20,7 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
 - [Installation - Windows Tutorial](#installation---windows-tutorial)
 - [Installation - YouTube Tutorial](#installation---youtube-tutorial)
 - [User Guide](#user-guide)
+- [Donations](#donations)
 - [Acknowledgements](#acknowledgements)
 
 ## Overview
@@ -76,6 +77,12 @@ Running as Administrator will install Visual C++ Redistributables dependencies.
 ## User Guide
 
 The User Guide can be found [here](https://github.com/amakvana/EzYuzu/blob/master/GUIDE.md)
+
+## Donations
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/amakvana)
+[![liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/amakvana/donate)
+
+If this project helped you, feel free to buy me a coffee :)
 
 ## Acknowledgements
 
