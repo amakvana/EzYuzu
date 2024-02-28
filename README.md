@@ -25,7 +25,6 @@ Perfect for those who run Yuzu off an External HDD or through (but not limited t
 - [Installation - Windows Tutorial](#installation---windows-tutorial)
 - [Installation - YouTube Tutorial](#installation---youtube-tutorial)
 - [User Guide](#user-guide)
-- [Donations](#donations)
 - [Acknowledgements](#acknowledgements)
 
 ## Overview
